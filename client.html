@@ -1,0 +1,104 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+
+
+		{%ifequal idClient -2%}
+		    <h2>Crear client nou</h2>	
+			<form action="/ClientCrea" method="post">
+
+			<div class="form-group">
+				<label>Nom: </label> <input type="text"
+				class="form-control" name="nomClient" placeholder="nom client">
+			</div>
+			<div class="form-group">
+				<label>Direccio: </label> <input type="text"
+				class="form-control" name="direccio" placeholder="direccio client">
+			</div>
+			<div class="form-group">
+				<label>Codi Postal: </label> <input type="text"
+				class="form-control" name="codiPostal" placeholder="codi postal">
+			</div>
+			<div class="form-group">
+				<label>CIF: </label> <input type="text"
+				class="form-control" name="cifClient" placeholder="cif client">
+			</div>	
+			<div class="form-group">
+				<label>Telf: </label> <input type="text"
+				class="form-control" name="telClient" placeholder="tel client">
+			</div>
+			<div class="form-group">
+				<label>Mail: </label> <input type="text"
+				class="form-control" name="mailClient" placeholder="mail client">
+			</div>
+			<div class="form-group">
+				<label>Contacte: </label> <input type="text"
+				class="form-control" name="contacte" placeholder="contacte">
+			</div>	
+			<div class="form-group">
+				<label>Representant 1: </label> <input type="text"
+				class="form-control" name="nomRepres1" placeholder="nom representant 1">
+			</div>	
+			<div class="form-group">
+				<label>NIF Repr 1: </label> <input type="text"
+				class="form-control" name="nifRepres1" placeholder="nif representant 1">
+			</div>	
+			<div class="form-group">
+				<label>Representant 2: </label> <input type="text"
+				class="form-control" name="nomRepres2" placeholder="nom representant 2">
+			</div>	
+			<div class="form-group">
+				<label>NIF Repr 1: </label> <input type="text"
+				class="form-control" name="nifRepres2" placeholder="nif representant 2">
+			</div>	
+	
+			<button type="submit" class="btn btn-lg btn-primary" >Crea</button>
+			<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+			</form>
+			<form action="/EsquemaSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Esquema</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+			</form>
+
+			</div>
+			
+		{%else%}
+			
+			<h2>Assigna Client</h2>
+			<div class="container">
+
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Direccio</th>
+						<th>Cif</th>
+						<th>Telf</th>
+						<th>Contacte</th>
+						<th>Assigna</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in clientTots%}
+					<tr>
+						<td>{{i.nomClient}}</td>
+						<td>{{i.direccio}}</td>
+						<td>{{i.cifClient}}</td>
+						<td>{{i.telClient}}</td>
+						<td>{{i.contacte}}</td>
+
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/ClientSelect?idClient={{i.idClient}}&idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-check"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			
+			</div>
+
+		{%endifequal%}
+
+
+{% include "footer.html" %}

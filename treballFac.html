@@ -1,0 +1,104 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+			<form action="/ProformaSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Proforma</button>
+				<div><input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" /></div>
+			</form>
+			<br />
+		<h2>Treball</h2>
+		{%ifequal idLiniaFactura -1%} <!-- Preparat per a  nou -->
+			<form action="/LiniaFacturaCrea" method="get">
+					<div class="form-group">
+						<label>Treball: </label> <input type="text"
+						class="form-control" name="treballNH" placeholder="escriu linia de factura">
+					</div>
+					<div class="form-group">
+						<label>Preu: </label> <input type="text"
+						class="form-control" name="preu" placeholder="preu">
+					</div>
+					<div>
+						<button type="submit" class="btn btn-lg btn-primary">OK</button>
+					</div>
+					<div>
+						<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+					</div>
+			</form>
+
+
+		{%else%} <!--  select -->
+			<form action="/LiniaFacturaEdita" method="get">
+
+					<div class="form-group">
+						<label>Treball: </label> <input type="text"
+						class="form-control" name="treballNH" value="{{treball}}">
+					</div>
+					<div class="form-group">
+						<label>Preu: </label> <input type="text"
+						class="form-control" name="preu" value="{{preu}}">
+					</div>
+					<div>
+						<button type="submit" class="btn btn-lg btn-primary">OK</button>
+					</div>
+					<div>
+						<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+					</div>
+					<div>
+						<input type="text" name="idLiniaFactura" value="{{idLiniaFactura}}" style="visibility: hidden" />
+					</div>
+			</form>
+
+		
+		{%endifequal%}
+
+					<br>
+					{%if treballsLFF%}
+					<h3>Treballs</h3>
+						<table id="mytable" class="table table-striped">
+							<thead>
+								<tr>
+									<th>treball</th>
+									<th>preu</th>
+								</tr>
+							</thead>
+							<tbody>
+								{%for i in treballsLFF%}
+								<tr>
+									{%for j in treballsLF%}
+										{%ifequal i.idTreball j.idTreball%}
+										<td>{{j.treball}}</td>
+										<td>{{j.preu}}</td>
+										{%endifequal%}
+									{%endfor%}
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					{%endif%}
+					<br>				
+					{%if treballsLSF%}
+					<h3>Suplidos</h3>
+						<table id="mytable" class="table table-striped">
+							<thead>
+								<tr>
+									<th>suplido</th>
+									<th>quantitat</th>
+								</tr>
+							</thead>
+							<tbody>
+								{%for i in treballsLSF%}
+								<tr>
+									<td>{{i.suplido}}</td>
+									<td>{{i.preuSuplido}}</td>
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					{%endif%}
+
+				</tbody>
+			</div>
+		</div>
+
+{% include "footer.html" %}

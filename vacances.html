@@ -1,0 +1,309 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	
+		<div class="container">
+
+
+	
+	    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">	
+		
+		var a = "{{liniatemps}}";
+		
+		var c = "{{linkTarea}}";
+		
+		var d = "{{eixTemps}}";
+		
+		
+		
+		var result = [];
+
+		a = a.split(','); 
+
+		while(a[0]) {
+		    result.push(a.splice(0,5));
+		}
+
+		result;
+		
+		var matriu = result;
+		
+		var result2 = [];
+
+		c = c.split(','); 
+
+		while(c[0]) {
+		    result2.push(c.splice(0,1));
+		}
+
+		result2;
+		
+		var linkTarea = result2;
+		
+
+		
+	  
+		  function compareDate(str1){
+				var yr1   = parseInt(str1.substring(0,4));
+				var mon1  = parseInt(str1.substring(5,7));
+				var dt1   = parseInt(str1.substring(8,10));
+				var date1 = new Date(yr1, mon1-1, dt1);
+				return date1;
+				}
+			
+		  function transforma(a) {
+			  	for (var i=0; i<a.length; i++) { 
+					a[i][3]=compareDate(a[i][3]);
+					a[i][4]=compareDate(a[i][4]);
+			  	}
+				return a;
+			  }  
+		  
+		  
+		  matriu = transforma(matriu)
+		  
+		  
+		  var eix = d.split(','); 
+		  
+		  
+				
+		  var  fin = compareDate(eix[1]);
+		  
+		  var zoomE = eix[0];
+		  
+		  
+		  
+		  
+		  
+ 
+		  
+		 	
+		  function drawChart() {
+
+		 	    var container = document.getElementById('liniatemps');
+		 	    var chart = new google.visualization.Timeline(container);
+		 	    var dataTable = new google.visualization.DataTable();
+		 	    dataTable.addColumn({ type: 'string', id: 'Position' });
+		 	    dataTable.addColumn({ type: 'string', id: 'Name' });
+		 	   dataTable.addColumn({ type: 'string', role: 'style' });
+		 	    dataTable.addColumn({ type: 'date', id: 'Start' });
+		 	    dataTable.addColumn({ type: 'date', id: 'End' });
+		 	    
+		 	    var dataTable2 = new google.visualization.DataTable();
+		 	    dataTable2.addColumn({ type: 'string', id: 'Position' });
+
+		 	    
+		 	    
+		 	    
+		 	    dataTable.addRows(matriu);
+		 	    
+		 	    dataTable2.addRows(linkTarea);
+		 	    
+		 	    var rowHeight = 41;
+		 	    var chartHeight = (dataTable.getNumberOfRows() + 1) * rowHeight;
+
+		 	    
+		 	   var options = {
+		 			  timeline: { groupByRowLabel: true, colorByRowLabel: true  },
+
+		 	          height: 400,
+		 		    };
+		 	   
+
+		        function selectHandler() {
+		          var selectedItem = chart.getSelection();
+		          if (selectedItem) {
+		        	  var value = dataTable2.getValue(selectedItem[0].row,0)  
+		              window.location = value;
+		          }
+		        }
+
+		        google.visualization.events.addListener(chart, 'select', selectHandler);
+		 	    chart.draw(dataTable, options);
+		 	  }
+		  
+		  google.charts.load("current", {packages:["timeline"]});
+		  google.charts.setOnLoadCallback(drawChart);
+
+		  
+		  
+		</script>
+			
+			<div class="container">
+				{%ifequal tareaSelect.idTarea -1%}
+					<form action="/VacancesTareaNou" method="get">
+						<button type="submit" class="btn btn-lg btn-primary" >crea vacas</button>
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</form>
+					<br />
+
+				{%else%}
+				
+						{%ifequal tareaSelect.idTarea -2%}
+  
+    <form class="form-inline" role="form" action="/VacancesTareaCrea" method="get">
+
+				<div class="form-group">
+					<label></label> 
+					<select name="idTreballador" class="form-control">
+	                                     <option value="{{treballadorSelect.idTreballador}}">{{treballadorSelect.claveTreballador}}</option>
+							   {%for i in treballadorAct%}
+										 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+							   {%endfor%}
+					</select>
+				</div>
+				<div class="form-group">
+					<label></label> <input type="text"
+					class="form-control" name="dataTarea" id="datepicker5" value="{{dataHui}}" >
+				</div>
+				<button type="submit" class="btn btn-default">OK</button>
+				<input type="text" name="idEsquema" value="{{esquemaSelect.idEsquema}}" style="visibility: hidden" />
+				<input type="text" name="idTarea" value="{{tareaSelect.idTarea}}" style="visibility: hidden" />
+
+  </form>
+  <br>
+  						{%else%}
+			
+				<form class="form-inline" role="form" action="/VacancesTareaEdita" method="get">	
+
+					<div class="form-group">
+						<select name="idTreballador" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador tareaSelect.idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+								   {%for i in treballadorAct%}
+								   			{%ifequal i.idTreballador 19%}
+								   			{%else%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+											{%endifequal%}
+								   {%endfor%}
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label>data: </label> <input type="text"
+						class="form-control" name="dataTarea" id="datepicker1" value="{{tareaSelect.dataTarea}}" >
+					</div>
+					<div class="form-group">	
+					  {%ifequal tareaSelect.ok 1%}
+		                   <label>borra: </label> <input type="checkbox" class="form-control" name="ok" value=1 checked="checked">
+		              {%else%}
+		                   <label>borra: </label> <input type="checkbox" class="form-control" name="ok" value=1>
+		              {%endifequal%}
+					</div>
+			
+						<button type="submit" class="btn btn-lg btn-primary">OK</button>
+						<a href="/VacancesTareaNou?idEsquema={{idEsquema}}">crea vacances</a>
+						<input type="text" name="idTarea" value="{{tareaSelect.idTarea}}" style="visibility: hidden" />
+						
+					
+				</form>
+				{%endifequal%}
+				
+		</div>
+			{%endifequal%}
+			<br>
+
+		<div id="chart_wrapper"> 
+			<div id="liniatemps"></div>
+		</div>
+			
+		<h2><b>vacances per treballador</b></h2>
+		
+		<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treballador</th>
+						<th>programades</th>
+						<th>fetes</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in vacancesAnyTotal%}
+					<tr>
+						<td>{{i.claveTreballador}}</td>
+						<td>{{i.dies}}</td>
+						{%for j in vacancesAny%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.dies}}</td>
+							{%endifequal%}							
+						{%endfor%}
+						
+
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			
+		<br>
+		
+		<h2><b>vacances pendents</b></h2>
+		
+		<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treballador</th>
+						<th>Data</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in vacancesPendent%}
+					<tr>
+						
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.dataTarea}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/VacancesTareaSelect?idTarea={{i.idTarea}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			
+		<br>
+		
+		<h2><b>vacances fetes</b></h2>
+		
+		<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treballador</th>
+						<th>Data</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in vacancesPassat%}
+					<tr>
+						
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.dataTarea}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/VacancesTareaSelect?idTarea={{i.idTarea}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+
+
+	
+</div>
+
+{% include "footer.html" %}

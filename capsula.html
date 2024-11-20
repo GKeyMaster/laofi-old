@@ -1,0 +1,107 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+			{%if capsulaDataHui%}
+			<h2>Capsules Hui</h2>
+			<div class="container">
+			
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>treballador</th>
+						<th>data</th>
+						<th>ofi</th>
+						<th>gestio</th>
+						<th>total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in capsulaDataHui%}
+					<tr>
+						<td>{{i.claveTreballador}}</td>
+						<td>{{i.data}}</td>
+						<td>{{i.nofi}}</td>
+						<td>{{i.ngest}}</td>
+						<td>{{i.total}}</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			{%endif%}
+			
+			{%if capsulaDataAhir%}
+			<h2>Capsules Ahir</h2>
+			<div class="container">
+			
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>treballador</th>
+						<th>data</th>
+						<th>ofi</th>
+						<th>gestio</th>
+						<th>total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in capsulaDataAhir%}
+					<tr>
+						<td>{{i.claveTreballador}}</td>
+						<td>{{i.data}}</td>
+						<td>{{i.nofi}}</td>
+						<td>{{i.ngest}}</td>
+						<td>{{i.total}}</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			{%endif%}
+			
+
+
+
+			<h2>Capsules</h2>
+			<div class="container">
+
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>num</th>
+						<th>nom</th>
+						<th>treballador</th>
+						<th>tipo</th>
+						<th>inici</th>
+						<th>elimina</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in capsulaTots%}
+					<tr>
+						<td>{{i.numExpedient}}</td>
+						<td>{{i.nomExpedient}}</td>
+						{%for j in treballadorTots%}
+								{%ifequal i.idTreballador j.idTreballador%}
+								<td>{{j.claveTreballador}}</td>
+								{%endifequal%}
+						{%endfor%}
+						{%ifequal i.tipoCapsula 1%}
+							<td>ofi</td>
+						{%else%}
+							<td>gestio</td>
+						{%endifequal%}
+						<td>{{i.iniciCapsula}}</td>
+
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/CapsulaElimina?idCapsula={{i.idCapsula}}"> <span
+								class="glyphicon glyphicon-remove"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			
+		</div>
+
+	
+
+{% include "footer.html" %}

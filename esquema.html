@@ -1,0 +1,755 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	
+
+	</p>
+	{%ifequal idEsquema -1%} <!-- Crea Esquema -->
+			<div class="container">
+				<h2><b>Esquema</b></h2>
+				<form action="/EsquemaCrea" method="get">
+					
+					<div class="form-group">
+						<label>Num esquema: </label> <input type="text"
+							class="form-control" name="numExpedient" value="{{numEsqSeg}}">
+					</div>
+					<div class="form-group">
+						<label>Nom esquema: </label> <input type="text"
+							class="form-control" name="nomExpedient" placeholder="nou esquema">
+					</div>
+					
+					<h3>Contacte</h3>
+					<div class="form-group">
+						<label>Nom contacte: </label> <input type="text"
+							class="form-control" name="nomClientPos" placeholder="nom contacte">
+					</div>					
+					<div class="form-group">
+						<label>Tel contacte: </label> <input type="text"
+							class="form-control" name="telClientPos" placeholder="tel sense espais">
+					</div>	
+					<div class="form-group">
+						<label>mail contacte: </label> <input type="text"
+							class="form-control" name="direcPos" placeholder="mail">
+					</div>	
+					<div class="form-group">
+						<label>Intermediari:</label> 
+						<select name="idIntermediari" class="form-control">
+                             {%for i in intermediariTots%}
+                                  {%ifequal i.idIntermediari 1%}
+                                       <option value="{{i.idIntermediari}}">{{i.identificador}}</option>
+                                  {%endifequal%}
+                             {%endfor%}
+							{%for i in intermediariAct%}
+							<option value={{i.idIntermediari}}>{{i.identificador}}</option>
+							{%endfor%}
+						</select>
+					</div>
+					
+				
+					<h3>Local</h3>
+					<div class="form-group">
+						<label>direccio: </label> <input type="text"
+							class="form-control" name="direcLocal" placeholder="direccio">
+					</div>	
+					<div class="form-group">
+						<label>activitat: </label> <input type="text"
+							class="form-control" name="titolLlicencia" placeholder="activitat">
+					</div>
+                    <div class="form-group">
+						<label>mapa: </label> <input type="text"
+							class="form-control" name="mapa" value="0">
+					</div>
+                    <div class="form-group">
+						<label>drive: </label> <input type="text"
+							class="form-control" name="drive" value="0">
+					</div>
+                    <div class="form-group">
+						<label>GoogleMaps: </label> <input type="text"
+							class="form-control" name="gmap" value="0">
+					</div>		
+
+					<input type="text" name="idUbicacio" value="{{3}}" style="visibility: hidden" /></div>
+					<input type="text" name="idTreballador" value="{{0}}" style="visibility: hidden" /></div>
+					
+					<button type="submit" class="btn btn-lg btn-primary">CREAR ESQUEMA</button>
+					
+				</form>
+			<div>
+	{%else%}<!-- Edita Esquema -->
+			<div class="container">
+
+
+	
+	    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">	
+		
+		var a = "{{liniatemps}}";
+		
+		var c = "{{linkTarea}}";
+		
+		var d = "{{eixTemps}}";
+		
+		
+		
+		var result = [];
+
+		a = a.split(','); 
+
+		while(a[0]) {
+		    result.push(a.splice(0,5));
+		}
+
+		result;
+		
+		var matriu = result;
+		
+		var result2 = [];
+
+		c = c.split(','); 
+
+		while(c[0]) {
+		    result2.push(c.splice(0,1));
+		}
+
+		result2;
+		
+		var linkTarea = result2;
+		
+
+		
+	  
+		  function compareDate(str1){
+				var yr1   = parseInt(str1.substring(0,4));
+				var mon1  = parseInt(str1.substring(5,7));
+				var dt1   = parseInt(str1.substring(8,10));
+				var date1 = new Date(yr1, mon1-1, dt1);
+				return date1;
+				}
+			
+		  function transforma(a) {
+			  	for (var i=0; i<a.length; i++) { 
+					a[i][3]=compareDate(a[i][3]);
+					a[i][4]=compareDate(a[i][4]);
+			  	}
+				return a;
+			  }  
+		  
+		  
+		  matriu = transforma(matriu)
+		  
+		  
+		  var eix = d.split(','); 
+		  
+		  
+				
+		  var  fin = compareDate(eix[1]);
+		  
+		  var zoomE = eix[0];
+		  
+		  
+		  
+		  
+		  
+ 
+		  
+		 	
+		  function drawChart() {
+
+		 	    var container = document.getElementById('liniatemps');
+		 	    var chart = new google.visualization.Timeline(container);
+		 	    var dataTable = new google.visualization.DataTable();
+		 	    dataTable.addColumn({ type: 'string', id: 'Position' });
+		 	    dataTable.addColumn({ type: 'string', id: 'Name' });
+		 	   dataTable.addColumn({ type: 'string', role: 'style' });
+		 	    dataTable.addColumn({ type: 'date', id: 'Start' });
+		 	    dataTable.addColumn({ type: 'date', id: 'End' });
+		 	    
+		 	    var dataTable2 = new google.visualization.DataTable();
+		 	    dataTable2.addColumn({ type: 'string', id: 'Position' });
+
+		 	    
+		 	    
+		 	    
+		 	    dataTable.addRows(matriu);
+		 	    
+		 	    dataTable2.addRows(linkTarea);
+		 	    
+		 	    var rowHeight = 41;
+		 	    var chartHeight = (dataTable.getNumberOfRows() + 1) * rowHeight;
+
+		 	    
+		 	   var options = {
+		 			  timeline: { groupByRowLabel: false, colorByRowLabel: true  },
+
+		 		     hAxis: {
+		 	            maxValue: fin,
+		 	          },
+		 	         height: chartHeight,
+		 	         width: zoomE,
+		 		    };
+		 	   
+
+		        function selectHandler() {
+		          var selectedItem = chart.getSelection();
+		          if (selectedItem) {
+		        	  var value = dataTable2.getValue(selectedItem[0].row,0)  
+		              window.location = value;
+		          }
+		        }
+
+		        google.visualization.events.addListener(chart, 'select', selectHandler);
+		 	    chart.draw(dataTable, options);
+		 	  }
+		  
+		  google.charts.load("current", {packages:["timeline"]});
+		  google.charts.setOnLoadCallback(drawChart);
+
+		  
+		  
+		</script>
+		<h2><b>{{esquemaSelect.numExpedient}}     {{esquemaSelect.nomExpedient}}</b></h2>
+
+
+
+			
+			<div class="container">
+				{%ifequal tareaSelect.idTarea -1%}
+					<form action="/TareaNou" method="get">
+						<button type="submit" class="btn btn-lg btn-primary" >Crea Tarea</button>
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</form>
+					<br />
+				{%else%}
+			
+				<form class="form-inline" role="form" action="/TareaEdita" method="get">	
+
+					<div class="form-group">
+						<select name="idTreballador" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador tareaSelect.idTreballador%}
+		                                     <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+
+					<div class="form-group">
+						<input type="text"
+						class="form-control" name="comentari" value="{{tareaSelect.comentari}}">
+					</div>
+					<div class="form-group">
+							<select name="idEstat" class="form-control">
+			                           <option value="1">P1</option>
+									   {%for i in estat%}
+												 <option value={{i.idEstat}}>{{i.nomEstat}}</option>
+									   {%endfor%}
+							</select>
+                    </div>	
+                    <div class="form-group">
+						<label></label> <input type="text"
+						class="form-control" name="dataTarea" id="datepicker1" value="{{tareaSelect.dataTarea}}" style="visibility: hidden" >
+					</div>				
+					
+					
+					
+					<div class="form-group">	
+					  {%ifequal tareaSelect.ok 1%}
+		                   <label>borra: </label> <input type="checkbox" class="form-control" name="ok" value=1 checked="checked">
+		              {%else%}
+		                   <label>borra: </label> <input type="checkbox" class="form-control" name="ok" value=1>
+		              {%endifequal%}
+					</div>
+
+			
+						<button type="submit" class="btn btn-lg btn-primary">OK</button>
+						<a href="/TareaNou?idEsquema={{idEsquema}}">crea tarea</a>
+						<input type="text" name="idTarea" value="{{tareaSelect.idTarea}}" style="visibility: hidden" />
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+						<input type="text" name="dataFin" value="{{tareaSelect.dataTarea}}" style="visibility: hidden" />
+						<input type="text" name="marca" value="10" style="visibility: hidden" />
+					
+				</form>
+				
+		</div>
+			{%endifequal%}
+			<br>
+
+		<div id="chart_wrapper"> 
+			<div id="liniatemps"></div>
+		</div>
+
+		
+				<form action="/EsquemaEdita" method="post">
+
+					<div class="form-group">
+						<label>Num esquema: </label> <input type="text"
+							class="form-control" name="numExpedient" value="{{esquemaSelect.numExpedient}}">
+					</div>
+					<div class="form-group">
+						<label>Nom esquema: </label> <input type="text"
+							class="form-control" name="nomExpedient" value="{{esquemaSelect.nomExpedient}}">
+					</div>
+					<div class="form-group">
+						<label>VIP:</label> 
+						<select name="numBoutique" class="form-control">
+                             <option value="{{esquemaSelect.numBoutique}}">{{esquemaSelect.numBoutique}}</option>
+                             <option value=0></option>
+                             <option value=1>1</option>
+                             <option value=2>2</option>
+                             <option value=3>3</option>
+						</select>
+					</div>	
+
+
+					
+					<h3>Contacte</h3>
+					<div class="form-group">
+						<label>Nom contacte: </label> <input type="text"
+							class="form-control" name="nomClientPos" value="{{esquemaSelect.nomClientPos}}">
+					</div>					
+					<div class="form-group">
+						<label>Tel contacte: </label> <input type="text"
+							class="form-control" name="telClientPos" value="{{esquemaSelect.telClientPos}}">
+					</div>	
+					<div class="form-group">
+						<label>mail contacte: </label> <input type="text"
+							class="form-control" name="direcPos" value="{{esquemaSelect.direcPos}}">
+					</div>	
+					<div class="form-group">
+						<label>Intermediari:</label> 
+						<select name="idIntermediari" class="form-control">
+                             {%for i in intermediariTots%}
+                                  {%ifequal i.idIntermediari esquemaSelect.idIntermediari%}
+                                       <option value="{{i.idIntermediari}}">{{i.identificador}}</option>
+                                  {%endifequal%}
+                             {%endfor%}
+							{%for i in intermediariAct%}
+							<option value={{i.idIntermediari}}>{{i.identificador}}</option>
+							{%endfor%}
+						</select>
+						<a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IntermediariSelect?idIntermediari={{esquemaSelect.idIntermediari}}&idEsquema={{esquemaSelect.idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil">   edita intermediari  </span></a>
+					</div>
+			
+					<h3>Local</h3>
+					<div class="form-group">
+						<label>direccio: </label> <input type="text"
+							class="form-control" name="direcLocal" value="{{esquemaSelect.direcLocal}}">
+					</div>	
+					<div class="form-group">
+						<label>activitat: </label> <input type="text"
+							class="form-control" name="titolLlicencia" value="{{esquemaSelect.titolLlicencia}}">
+					</div>	
+					<div class="form-group">
+						<label>Ref Catastral: </label> <input type="text"
+							class="form-control" name="refCatastral" value="{{esquemaSelect.refCatastral}}">
+					</div>
+                    <div class="form-group">
+						<label>Mapa: </label> <input type="text"
+							class="form-control" name="mapa" value="{{esquemaSelect.mapa}}">
+					</div>
+                    <div class="form-group">
+						<label>Drive: </label> <input type="text"
+							class="form-control" name="drive" value="{{esquemaSelect.drive}}">
+					</div>
+                    <div class="form-group">
+						<label>GoogleMaps: </label> <input type="text"
+							class="form-control" name="gmap" value="{{esquemaSelect.gmap}}">
+					</div>	
+					
+					<div class="form-group">	
+					  {%ifequal esquemaSelect.check8 1%}
+		                   <label>check: </label> <input type="checkbox" class="form-control" name="check8" value=1 checked="checked">
+		              {%else%}
+		                   <label>check: </label> <input type="checkbox" class="form-control" name="check8" value=1>
+		              {%endifequal%}
+					</div>
+					
+					<button type="submit" class="btn btn-lg btn-primary">OK</button>
+					
+					<input type="text" name="idEsquema" value="{{esquemaSelect.idEsquema}}" style="visibility: hidden" />
+					<input type="text" name="idUbicacio" value="{{3}}" style="visibility: hidden" /></div>
+					
+				</form>
+			
+
+
+			</div>
+			<br>
+					<h2><b>Client</b></h2>
+					{%if esquemaSelect.idClient < 1%}
+			<div class="container">
+					
+					<form action="/ClientSelect" method="post">
+							<div class="form-group">
+								<label>Client:</label> 
+								<select name="idClient" class="form-control">
+									<option></option>
+									{%for i in clientTots%}
+									<option value={{i.idClient}}>{{i.nomClient}}</option>
+									{%endfor%}
+								</select>
+								<a class="btn btn-lg btn-primary btn-xs" role="button"
+									href="/IntermediariSelect?idIntermediari={{esquemaSelect.idIntermediari}}&idEsquema={{esquemaSelect.idEsquema}}"> <span
+										class="glyphicon glyphicon-pencil"></span></a>
+							</div>
+							<button type="submit" class="btn btn-lg btn-primary" >OK</button>
+							<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</form>
+			
+					<p>
+						<form action="/ClientTots" method="get">
+							<button type="submit" class="btn btn-lg btn-primary" >Selec Client</button>
+							<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+							<input type="text" name="idClient" value="{{clientSelect.idClient}}" style="visibility: hidden" />
+						</form>
+						<form action="/ClientNou" method="get">
+							<button type="submit" class="btn btn-lg btn-primary" >Crea Client</button>
+							<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+							<input type="text" name="idClient" value="{{clientSelect.idClient}}" style="visibility: hidden" />
+						</form>
+					</p>
+			</div>
+					{%else%}
+			<div class="container">
+				<form action="/ClientEdita" method="get">
+						<div class="form-group">
+							<label>Nom: </label> <input type="text"
+							class="form-control" name="nomClient" value="{{clientSelect.nomClient}}">
+						</div>
+						<div class="form-group">
+							<label>Direccio: </label> <input type="text"
+							class="form-control" name="direccio" value="{{clientSelect.direccio}}">
+						</div>
+						<div class="form-group">
+							<label>Codi Postal: </label> <input type="text"
+							class="form-control" name="codiPostal" value="{{clientSelect.codiPostal}}">
+						</div>
+						<div class="form-group">
+							<label>CIF: </label> <input type="text"
+							class="form-control" name="cifClient" value="{{clientSelect.cifClient}}">
+						</div>	
+						<div class="form-group">
+							<label>Telf: </label> <input type="text"
+							class="form-control" name="telClient" value="{{clientSelect.telClient}}">
+						</div>
+						<div class="form-group">
+							<label>Mail: </label> <input type="text"
+							class="form-control" name="mailClient" value="{{clientSelect.mailClient}}">
+						</div>
+						<div class="form-group">
+							<label>Contacte: </label> <input type="text"
+							class="form-control" name="contacte" value="{{clientSelect.contacte}}">
+						</div>	
+						<div class="form-group">
+							<label>Representant 1: </label> <input type="text"
+							class="form-control" name="nomRepres1" value="{{clientSelect.nomRepres1}}">
+						</div>	
+						<div class="form-group">
+							<label>NIF Repr 1: </label> <input type="text"
+							class="form-control" name="nifRepres1" value="{{clientSelect.nifRepres1}}">
+						</div>	
+						<div class="form-group">
+							<label>Representant 2: </label> <input type="text"
+							class="form-control" name="nomRepres2" value="{{clientSelect.nomRepres2}}">
+						</div>	
+						<div class="form-group">
+							<label>NIF Repr 1: </label> <input type="text"
+							class="form-control" name="nifRepres2" value="{{clientSelect.nifRepres2}}">
+						</div>									
+								<input type="text" name="idClient" value="{{clientSelect.idClient}}" style="visibility: hidden" />
+						
+								<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />	
+						<div>		
+								<button type="submit" class="btn btn-lg btn-primary">OK</button>
+						</div>
+					
+				</form>
+	
+				<br>
+				<form action="/ClientTots" method="get">
+					<button type="submit" class="btn btn-lg btn-primary" >Selec Client</button>
+					
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					<input type="text" name="idClient" value="{{clientSelect.idClient}}" style="visibility: hidden" />
+				</form>
+				<br>
+				<form action="/ClientNou" method="get">
+					<button type="submit" class="btn btn-lg btn-primary" >Crea Client</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				</form>
+			</div>
+					{%endif%}
+			
+		<br><br>
+		<div class="container">
+			<h2><b>Historia</b></h2>
+					<form action="/HistoriaNou" method="get">
+						<button type="submit" class="btn btn-lg btn-primary" >Crea Historia</button>
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</form>
+					<br>
+					<form action="/HistoriaCompleta" method="get">
+						<button type="submit" class="btn btn-lg btn-primary" >Historia Completa</button>
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</form>					
+		<br>
+		<div class="container">
+			{%if historiaEsq%}
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treb</th>
+						<th>Incidencia</th>
+						<th>Data</th>
+						<th>Historia</th>
+						<th></th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in historiaEsq%}
+					<tr>
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in incidenciaTots%}
+							{%ifequal i.idIncidencia j.idIncidencia%}
+							<td>{{j.incidencia}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.dataHist}}</td>
+						<td>{{i.historia}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/HistoriaSelect?idHistoria={{i.idHistoria}}&idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>	
+			{%endif%}
+		</div>
+		</div>
+		<br><br>
+		<div class="container">
+			
+			<h2><b>Pressupost</b></h2>
+			
+			
+			{%if pressupostEsq%}
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Num</th>
+						<th>Nom</th>
+						<th>Data</th>
+						<th>Titol</th>
+						<th>Valeva</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in pressupostEsq%}
+					<tr>
+						<td>{{i.numPressupost}}</td>
+						<td>{{i.nomPressupost}}</td>
+						<td>{{i.dataPressupost}}</td>
+						<td>{{i.titol}}</td>
+						{%ifequal i.valeva 0%}
+						<td>no</td>
+						{%else%}
+						<td>si</td>
+						{%endifequal%}
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/PressupostSelect?idPressupost={{i.idPressupost}}&idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			<br>
+			{%ifequal valeva 0%}
+			<form action="/TreballValeva" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >Valeva</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				<input type="text" name="idTreballador" value="{{esquemaSelect.idTreballador}}" style="visibility: hidden" />
+			</form>
+			<br>
+			{%endifequal%}
+
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treball</th>
+						<th>Preu</th>
+						<th>CapMax vs Cap</th>
+						<th>Treb</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in treballPressupost%}
+					<tr>
+						<td>{{i.treball}}</td>
+						<td>{{i.preu}}</td>
+						<td>{{i.capMax}} vs {{i.cap}}</td>
+						<td>{{i.claveTreballador}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TreballSelectOrdre?idTreball={{i.idTreball}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			<br>
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Total</th>
+						<th>20%</th>
+						<th>30%</th>
+						<th>40%</th>
+						<th>50%</th>
+						<th>60%</th>
+						<th>70%</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{pressupostPercent.tot}}</td>
+						<td>{{pressupostPercent.t20t}}</td>
+						<td>{{pressupostPercent.t30t}}</td>
+						<td>{{pressupostPercent.t40t}}</td>
+						<td>{{pressupostPercent.t50t}}</td>
+						<td>{{pressupostPercent.t60t}}</td>
+						<td>{{pressupostPercent.t70t}}</td>
+					</tr>
+				</tbody>
+			</table>
+			{%else%}
+			<form action="/PressupostNou" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >Crea Pressupost</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>	
+			{%endif%}	
+		</div>
+		<br><br>
+		<div class="container">
+			{%if pressupostEsq%}
+			{%if esquemaSelect.idClient > 0%}
+			<h2><b>Proformes</b></h2>
+			<form action="/ProformaNou" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >Crea Proforma</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>
+			<br>
+			{%endif%}
+			{%endif%}		
+			
+			{%if proformaEsq%}
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>client</th>
+						<th>proforma</th>
+						<th>dataProf</th>
+						<th>factura</th>
+						<th>dataFact</th>
+						<th>dataCobro</th>
+						<th>total</th>
+						<th>pendent</th>
+						<th>cobrat</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in proformaEsq%}
+					<tr>
+						<td>{{i.idClient}}</td>
+						<td>{{i.proforma}}</td>
+						<td>{{i.dataProforma}}</td>
+						<td>{{i.factura}}</td>
+						<td>{{i.dataFactura}}</td>
+						<td>{{i.dataCobro}}</td>
+						<td>{{i.total}}</td>
+						<td>{{i.pendent}}</td>
+						<td>{{i.cobrat}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/ProformaSelect?idFactura={{i.idFactura}}&idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/ProformaElimina?idFactura={{i.idFactura}}&idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-remove"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+						<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>total</th>
+						<th>cobrat</th>
+						<th>pendent</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{proformaEsqTot.totalP}}</td>
+						<td>{{proformaEsqTot.cobratP}}</td>
+						<td>{{proformaEsqTot.pendentP}}</td>
+					</tr>
+				</tbody>
+			</table>	
+			{%endif%}
+		</div>	
+		<br><br>
+			
+                  <!-- TABLA MOVIMENTS-->
+        <div class="container">          
+	         {% if movimentEsq %}
+		         <h2><b>Moviments</b></h2>
+		         <br>
+		         <table id="mytable" class="table table-striped">
+		              
+		              <thead>
+		                   <tr>
+		                        <th>dataMov</th><!--titols tabla-->
+		                        <th>descripcio</th>
+		                        <th>quant</th>
+		                        <th>proforma</th>
+		                        <th>factura</th>
+		                        <th></th>
+		                   </tr>
+		              </thead>
+		              <tbody>
+		                   <!-- imprimeix dades tabla  -->
+				           {%for i in movimentEsq%}  
+		                        <tr>
+		                             <td> {{i.dataMov}} </td>
+		                             <td> {{i.descripcio}} </td>
+		                             <td> {{i.quantitat}} </td>
+		                             <td> {{i.proforma}} </td>
+		                             <td> {{i.factura}} </td>
+									 <td><a class="btn btn-lg btn-primary btn-xs" role="button"
+									href="/MovimentSelect?idMoviment={{i.idMoviment}}&idTipoMov={{i.idTipoMov}}"> <span
+										class="glyphicon glyphicon-pencil"></span></a></td>
+		                        </tr>
+		                   {%endfor%}
+		                </tbody>
+		              </table>
+		         {%endif%}	
+	     </div>			
+
+	{%endifequal%}
+	
+</div>
+
+{% include "footer.html" %}

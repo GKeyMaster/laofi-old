@@ -1,0 +1,211 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	
+	{%ifequal idIntermediari -1%} <!-- Sense  seleccionat -->
+			<h2>Intermediaris</h2>
+			<div class="container">
+				<div class="row" id="modif-row-1">
+					<div class="col-lg-2">
+						<p>
+							<a class="btn btn-lg btn-primary" 
+								href="/IntermediariNou" role="button">Crear Intermediari</a>
+						</p>
+					</div>
+				</div>
+			{%ifequal idEsquema -1%}
+			<form action="/EsquemesTots" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >Esquema</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>
+			{%else%}
+			<form action="/EsquemaSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >Esquema</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>
+			{%endifequal%}
+			<br>
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Identificador</th>
+						<th>Mail</th>
+						<th>Nom</th>
+						<th>Comis</th>
+						<th>Telf</th>
+						<th>Contacte</th>
+						<th>Comentari</th>
+						<th>enActiu</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in intermediariTots%}
+					<tr>
+						<td>{{i.identificador}}</td>
+						<td>{{i.mail}}</td>
+						<td>{{i.nom}}</td>
+						{%ifequal i.comis 0%}
+							<td>no</td>
+						{%else%}
+							<td>si</td>
+						{%endifequal%}
+						<td>{{i.telf}}</td>
+						<td>{{i.contacte}}</td>
+						<td>{{i.comentari}}</td>
+						{%ifequal i.enActiu 0%}
+							<td>no</td>
+						{%else%}
+							<td>si</td>
+						{%endifequal%}
+
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IntermediariSelect?idIntermediari={{i.idIntermediari}}&idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			
+		</div>
+	{%else%}
+
+		{%ifequal idIntermediari -2%} <!-- Preparat per a  nou -->
+			<div class="container">
+				<form action="/IntermediariTots" method="get">
+					<button type="submit" class="btn btn-lg btn-primary" >Tots Intermediaris</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				</form>
+					<br>
+					<form action="/IntermediariCrea" method="post">
+		
+					<div class="form-group">
+						<label>Identificador: </label> <input type="text"
+						class="form-control" name="identificador" placeholder="identificador">
+					</div>
+					<div class="form-group">
+						<label>Mail: </label> <input type="text"
+						class="form-control" name="mail" placeholder="mail">
+					</div>
+					<div class="form-group">
+						<label>Nom: </label> <input type="text"
+						class="form-control" name="nom" placeholder="nom">
+					</div>	
+					<div class="form-group">
+						<label>Comis:</label> 
+						<select name="comis" class="form-control">
+							<option value=0>no</option>
+							<option value=1>si</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Telf: </label> <input type="text"
+						class="form-control" name="telf" placeholder="telefon">
+					</div>	
+					<div class="form-group">
+						<label>Contacte: </label> <input type="text"
+						class="form-control" name="contacte" placeholder="contacte">
+					</div>	
+					<div class="form-group">
+						<label>Comentari: </label> <input type="text"
+						class="form-control" name="comentari" placeholder="comentari">
+					</div>	
+					<div class="form-group">
+						<label>En Actiu:</label> 
+						<select name="enActiu" class="form-control">
+							<option value=0>no</option>
+							<option value=1>si</option>
+						</select>
+					</div>
+		
+					<button type="submit" class="btn btn-lg btn-primary" onclick="window.location.href='/IntermediariCrea'" >Crea</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				</form>
+				<form action="/EsquemaSelect" method="get">
+					<button type="submit" class="btn btn-lg btn-primary" onclick="window.location.href='/IntermediariCrea'" >Esquema</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				</form>
+
+			</div>
+
+		{%else%} <!--  select -->
+			<div class="container">
+				<form action="/IntermediariTots" method="get">
+					<button type="submit" class="btn btn-lg btn-primary" onclick="window.location.href='/IntermediariCrea'" >Tots Intermediaris</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+				</form>
+	
+					<form action="/IntermediariEdita" method="post">
+					
+				<div class="form-group">
+					<label>Identificador: </label> <input type="text"
+					class="form-control" name="identificador" value="{{intermediariSelect.identificador}}">
+				</div>
+				<div class="form-group">
+					<label>Mail: </label> <input type="text"
+					class="form-control" name="mail" value="{{intermediariSelect.mail}}">
+				</div>
+				<div class="form-group">
+					<label>Nom: </label> <input type="text"
+					class="form-control" name="nom" value="{{intermediariSelect.nom}}">
+				</div>	
+				<div class="form-group">
+							<label>Comis:</label> <select name="comis"
+								class="form-control">
+								{%ifequal intermediariSelect.comis 0%}
+								<option value=0>no</option>
+								{%else%}
+								<option value=1>si</option>
+								{%endifequal%}
+								<option value=0>no</option>
+								<option value=1>si</option>
+							</select>
+				</div>
+				<div class="form-group">
+					<label>Telf: </label> <input type="text"
+					class="form-control" name="telf" value="{{intermediariSelect.telf}}">
+				</div>	
+				<div class="form-group">
+					<label>Contacte: </label> <input type="text"
+					class="form-control" name="contacte" value="{{intermediariSelect.contacte}}">
+				</div>	
+				<div class="form-group">
+					<label>Comentari: </label> <input type="text"
+					class="form-control" name="comentari" value="{{intermediariSelect.comentari}}">
+				</div>	
+						<div class="form-group">
+							<label>En Actiu:</label> 
+							<select name="enActiu"
+								class="form-control">
+								{%ifequal intermediariSelect.enActiu 0%}
+								<option value=0>no</option>
+								{%else%}
+								<option value=1>si</option>
+								{%endifequal%}
+								<option value=0>no</option>
+								<option value=1>si</option>
+							</select>
+						</div>			
+					
+						<button type="submit" class="btn btn-lg btn-primary">OK</button>
+						<div>
+							<input type="text" name="idIntermediari" value="{{idIntermediari}}" style="visibility: hidden" />
+						</div>
+							<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+
+					</form>
+					<form action="/EsquemaSelect" method="get">
+						<button type="submit" class="btn btn-lg btn-primary">Esquema</button>
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</form>
+
+			</div>		
+		
+		{%endifequal%}
+			
+	{%endifequal%}
+	
+
+
+{% include "footer.html" %}

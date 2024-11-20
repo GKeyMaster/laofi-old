@@ -1,0 +1,50 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron  --> 
+	<div class="jumbotron" id="modif-jumbo-1">
+
+			<h2>ULTIMES PROFORMES</h2>	
+				<br><br><br>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+							<th>numEsq</th>
+							<th>nomEsq</th>
+							<th>proforma</th>
+							<th>dataProf</th>
+							<th>factura</th>
+							<th>dataFact</th>
+							<th>quantitat</th>
+							<th>suplidos</th>
+							<th>dataCobro</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in proformes%}
+						<tr>
+							<td>{{i.numExpedient}}</td>
+							<td>{{i.nomExpedient}}</td>
+							<td>{{i.proforma}}</td>
+							<td>{{i.dataProforma}}</td>
+							<td>{{i.factura}}</td>
+							<td>{{i.dataFactura}}</td>
+							<td>{{i.tProforma}}</td>
+							<td>{{i.tSuplido}}</td>
+							<td>{{i.dataCobro}}</td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/ProformaSelect?idFactura={{i.idFactura}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+
+	</div>
+</div>
+
+
+{% include "footer.html" %}

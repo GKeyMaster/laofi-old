@@ -1,0 +1,44 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	<div class="jumbotron" id="modif-jumbo-1">
+
+			<h2>VIP</h2>	
+				<br><br><br>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+							<th>numEsq</th>
+							<th>nomEsq</th>
+							<th>vip</th>
+							<th>contacte</th>
+							<th>telf</th>
+							<th>mail</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in vipTots%}
+						<tr>
+							<td>{{i.numExpedient}}</td>
+							<td>{{i.nomExpedient}}</td>
+							<td>{{i.numBoutique}}</td>
+							<td>{{i.nomClientPos}}</td>
+							<td>{{i.telClientPos}}</td>
+							<td>{{i.direcPos}}</td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/EsquemaSelect?idEsquema={{i.idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+
+	</div>
+</div>
+
+
+{% include "footer.html" %}

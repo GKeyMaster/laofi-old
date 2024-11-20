@@ -1,0 +1,61 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+		<h2>Control Capsula</h2>
+		<div class="container">
+
+			<form action="/ControlCapsulaSelect" method="post">
+
+					<div class="form-group">
+						<label>Treballador:</label> 
+						<select name="idTreballador" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Data Ini: </label> <input type="text"
+						class="form-control" name="dataIni" id="datepicker3" value="{{dataIni}}" >
+					</div>
+					<div class="form-group">
+						<label>Data Fin: </label> <input type="text"
+						class="form-control" name="dataFin" id="datepicker4" value="{{dataFin}}" >
+					</div>
+			<button type="submit" class="btn btn-lg btn-primary" >OK</button>
+			</form>
+
+			</div>
+		
+		
+
+			<h2><b>Control Capsula {{controlCapsulaTot}}</b></h2>
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>num</th>
+						<th>esquema</th>
+						<th>capsules</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in controlCapsula%}
+					<tr>
+						<td>{{i.numExpedient}}</td>
+						<td>{{i.nomExpedient}}</td>
+						<td>{{i.capsula}}</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>	
+
+		</div>
+		
+
+{% include "footer.html" %}

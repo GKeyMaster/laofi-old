@@ -1,0 +1,367 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+{%ifequal tabla 1%} <!-- tabla -->
+
+		{%ifequal idTreball -1%} <!-- tabla -->
+		{%else%} <!--  select -->
+ <div class="container">
+
+  <form class="form-inline" role="form" action="/TreballEditaOrdreTabla" method="get">
+					<div class="form-group">
+				<label></label> <input type="text"
+				class="form-control" name="numExpedient" style="background-color: #BDBDBD; width: 100px" value="{{esquemaSelect.numExpedient}}">
+			</div>
+			<div class="form-group">
+				<label></label> <input type="text"
+				class="form-control" name="nomExpedient" style="background-color: #BDBDBD; width: 250px" value="{{esquemaSelect.nomExpedient}}">
+			</div>
+					
+					<div class="form-group">
+				<label></label> <input type="text"
+				class="form-control" name="treball" style="background-color: #BDBDBD; width: 250px" value="{{treballSelectOrdre.treball}}">
+			</div>
+			<div class="form-group">
+				<label></label> <input type="text"
+				class="form-control" name="preu" style="width: 80px"value="{{treballSelectOrdre.preu}}">
+			</div>
+			<a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/EsquemaSelect?idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a>
+			<div class="form-group">
+						<label></label> 
+						<select name="idTreballadorNou" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador treballSelectOrdre.idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+		                           <option></option>
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+			<div class="form-group">
+						<label>Acabat:</label> 
+						<select name="enActiu"
+							class="form-control">
+							{%ifequal treballSelectOrdre.enActiu 0%}
+							<option value=0>si</option>
+							<option value=1>no</option>
+							{%else%}
+							<option value=1>no</option>
+							<option value=0>si</option>
+							{%endifequal%}
+						</select>
+					</div>
+			<div class="form-group">
+				<label>ord</label> <input type="text"
+				class="form-control" name="ordre" style="width: 50px" value="{{treballSelectOrdre.ordre}}">
+			</div>
+			<div class="form-group">
+						<label>Top:</label> 
+						<select name="enTop"
+							class="form-control">
+							{%ifequal treballSelectOrdre.enTop 0%}
+							<option value=0>no</option>
+							<option value=1>si</option>
+							{%else%}
+							<option value=1>si</option>
+							<option value=0>no</option>
+							{%endifequal%}
+						</select>
+					</div>
+			
+			
+
+				<button type="submit" class="btn btn-lg btn-primary">OK</button>
+				
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				<input type="text" name="idTreball" value="{{treballSelectOrdre.idTreball}}" style="visibility: hidden" />
+				<input type="text" name="idTreballador" value="{{idTreballador}}" style="visibility: hidden" />
+			</form>
+
+</div> 
+		{%endifequal%} 
+
+		<div class="container">
+		<form class="form-inline" role="form" action="/TreballadorTablaSelect" method="get">
+					<div class="form-group">
+						<label>Treballador:</label> 
+						<select name="idTreballador" style="width: 100px" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador idTreballador%}
+		                                     <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+		                           <option value=19></option>
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+				<button type="submit" class="btn btn-lg btn-primary">OK</button>
+			</form>	
+		</div>
+		</br>	
+			{%ifequal idTreballador -1%}
+			<div class="container">
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treb</th>
+						<th>Ordre</th>
+						<th>Top</th>
+						<th>Num</th>
+						<th>Esquema</th>
+						<th>Treball</th>
+						<th>Preu</th>
+						<th>CapMax vs Cap</th>					
+						<th>Acabat</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in treballTabla%}
+					<tr>
+						{%ifequal i.enActiu 0%}
+							<td id=color2>{{i.claveTreballador}}</td>
+							<td id=color2>{{i.ordre}}</td>
+							{%ifequal i.enTop 0%}
+							<td id=color2>no</td>
+							{%else%}
+							<td id=color1>si</td>
+							{%endifequal%}
+							<td id=color2>{{i.numExpedient}}</td>
+							<td id=color2>{{i.nomExpedient}}</td>
+							<td id=color2>{{i.treball}}</td>
+							<td id=color2>{{i.preu}}</td>
+							<td id=color2>{{i.capMax}} vs {{i.cap}}</td>
+							<td id=color2>si</td>
+						{%else%}
+							{%ifequal i.enTop 0%}
+								<td>{{i.claveTreballador}}</td>
+								<td>{{i.ordre}}</td>
+								<td>no</td>
+								<td>{{i.numExpedient}}</td>
+								<td>{{i.nomExpedient}}</td>
+								<td>{{i.treball}}</td>
+								<td>{{i.preu}}</td>
+								<td>{{i.capMax}} vs {{i.cap}}</td>
+								<td>no</td>
+							{%else%}
+								<td id=color1>{{i.claveTreballador}}</td>
+								<td id=color1>{{i.ordre}}</td>
+								<td id=color1>si</td>
+								<td id=color1>{{i.numExpedient}}</td>
+								<td id=color1>{{i.nomExpedient}}</td>
+								<td id=color1>{{i.treball}}</td>
+								<td id=color1>{{i.preu}}</td>
+								<td id=color1>{{i.capMax}} vs {{i.cap}}</td>
+								<td id=color1>no</td>
+							{%endifequal%}
+							
+						{%endifequal%}
+						
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TreballSelectOrdreTabla?idTreball={{i.idTreball}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+									href="/TreballenTablaNo?idTreball={{i.idTreball}}"> <span
+										class="glyphicon glyphicon-remove"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			</div>
+			
+			
+			
+			{%else%}
+			<div class="container">
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treb</th>
+						<th>Ordre</th>
+						<th>Top</th>
+						<th>Num</th>
+						<th>Esquema</th>
+						<th>Treball</th>
+						<th>Preu</th>
+						<th>CapMax vs Cap</th>
+						<th>Acabat</th>
+						{%ifequal idTreballador -1%}
+						{%else%}
+						<th></th>
+						{%endifequal%}
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in treballTabla%}
+					<tr>
+						{%ifequal i.enActiu 0%}
+							<td id=color2>{{i.claveTreballador}}</td>
+							<td id=color2>{{i.ordre}}</td>
+							{%ifequal i.enTop 0%}
+							<td id=color2>no</td>
+							{%else%}
+							<td id=color1>si</td>
+							{%endifequal%}
+							<td id=color2>{{i.numExpedient}}</td>
+							<td id=color2>{{i.nomExpedient}}</td>
+							<td id=color2>{{i.treball}}</td>
+							<td id=color2>{{i.preu}}</td>
+							<td id=color2>{{i.capMax}} vs {{i.cap}}</td>
+							<td id=color2>si</td>
+						{%else%}
+							{%ifequal i.enTop 0%}
+							    <td>{{i.claveTreballador}}</td>
+								<td>{{i.ordre}}</td>
+								<td>no</td>
+								<td>{{i.numExpedient}}</td>
+								<td>{{i.nomExpedient}}</td>
+								<td>{{i.treball}}</td>
+								<td>{{i.preu}}</td>
+								<td>{{i.capMax}} vs {{i.cap}}</td>	
+								<td>no</td>
+							{%else%}
+								<td id=color1>{{i.claveTreballador}}</td>
+								<td id=color1>{{i.ordre}}</td>
+								<td id=color1>si</td>
+								<td id=color1>{{i.numExpedient}}</td>
+								<td id=color1>{{i.nomExpedient}}</td>
+								<td id=color1>{{i.treball}}</td>
+								<td id=color1>{{i.preu}}</td>
+								<td id=color1>{{i.capMax}} vs {{i.cap}}</td>
+								<td id=color1>no</td>
+							{%endifequal%}
+							
+						{%endifequal%}
+						
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TreballSelectOrdreTabla?idTreball={{i.idTreball}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+									href="/TreballenTablaNo?idTreball={{i.idTreball}}"> <span
+										class="glyphicon glyphicon-remove"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			</div>
+			{%endifequal%}
+		
+
+{%else%} <!--  select -->
+
+ <div class="container">
+
+				<form action="/TreballEditaOrdre" method="get">
+			<div class="form-group">
+				<label>num Esquema: </label> <input type="text"
+				class="form-control" name="numExpedient" style="background-color: #BDBDBD" value="{{esquemaSelect.numExpedient}}"></div>
+			<div class="form-group">
+			<label>nom Esquema: </label> <input type="text"
+				class="form-control" name="nomExpedient" style="background-color: #BDBDBD" value="{{esquemaSelect.nomExpedient}}"></div>
+			<div class="form-group">
+				<label>Treball: </label> <input type="text"
+				class="form-control" name="treball" style="background-color: #BDBDBD" value="{{treballSelectOrdre.treball}}"></div>
+			
+			<div class="form-group">
+				<label>Preu: </label> <input type="text"
+				class="form-control" name="preu" value="{{treballSelectOrdre.preu}}">
+			</div>
+			<div class="form-group">
+						<label>Treballador:</label> 
+						<select name="idTreballador" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador treballSelectOrdre.idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+		                           <option></option>
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+
+			
+			
+			<div class="form-group">
+						<label>Top:</label> 
+						<select name="enTop"
+							class="form-control">
+							{%ifequal treballSelectOrdre.enTop 0%}
+							<option value=0>no</option>
+							<option value=1>si</option>
+							{%else%}
+							<option value=1>si</option>
+							<option value=0>no</option>
+							{%endifequal%}
+						</select>
+					</div>
+			
+			{%ifequal treballadorSelect.nivell 2%}
+			<div class="form-group">
+						<label>EnTabla:</label> 
+						<select name="enTabla"
+							class="form-control">
+							{%ifequal treballSelectOrdre.enTabla 0%}
+							<option value=0>no</option>
+							<option value=1>si</option>
+							{%else%}
+							<option value=1>si</option>
+							<option value=0>no</option>
+							{%endifequal%}
+						</select>
+					</div>
+			
+			<div class="form-group">
+						<label>Acabat:</label> 
+						<select name="enActiu"
+							class="form-control">
+							{%ifequal treballSelectOrdre.enActiu 0%}
+							<option value=0>si</option>
+							<option value=1>no</option>
+							{%else%}
+							<option value=1>no</option>
+							<option value=0>si</option>
+							{%endifequal%}
+						</select>
+					</div>
+			{%else%}
+			<input type="text" name="enTabla" value="{{treballSelectOrdre.enTabla}}" style="visibility: hidden" /></div>
+			<input type="text" name="enActiu" value="{{treballSelectOrdre.enActiu}}" style="visibility: hidden" /></div>
+			{%endifequal%}
+			
+			
+
+				<button type="submit" class="btn btn-lg btn-primary">OK</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+				<input type="text" name="idTreball" value="{{treballSelectOrdre.idTreball}}" style="visibility: hidden" /></div>
+			</form>
+
+				
+			</div>
+			
+		
+			<br />
+			<div class="container">
+			<form action="/EsquemaSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Esquema</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+			</form>
+			</div>
+		
+</div>		
+{%endifequal%}
+
+
+{% include "footer.html" %}

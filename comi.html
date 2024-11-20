@@ -1,0 +1,109 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	<div class="jumbotron" id="modif-jumbo-1">
+
+	{%ifequal idIntermediari -1%} <!-- Sense  seleccionat -->
+			<h2>INTERMEDIARIS AMB COMIS PENDENTS</h2>	
+				<br><br><br>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+					<thead>
+						<tr>
+							<th>intermediari</th>
+							<th>pendent</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in intermediariComi%}
+						<tr>
+							<td>{{i.identificador}}</td>
+							<td>{{i.comis}}</td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IntermediariComiSelect?idIntermediari={{i.idIntermediari}}"> <span
+								class="glyphicon glyphicon-eye-open"></span></a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+
+	{%else%}
+
+			{%for i in intermediariComi%}
+				{% ifequal i.idIntermediari idIntermediari%}
+					<h2>COMIS PENDENTS DE {{i.identificador}}:  {{i.comis}}</h2>
+				{%endifequal%}
+			{%endfor%}
+			<br><br>
+			<form action="/ComiInicial" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Comis</button>
+			</form>	
+				<br><br>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+					<thead>
+						<tr>
+							<th>client</th>
+							<th>prof</th>
+							<th>comis</th>
+							<th>solicitada</th>
+							<th>solicitar</th>
+							<th>pagada</th>
+							<th>no tabla</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in intermediariComiSelect%}
+						<tr>
+							{%ifequal i.comisPagada 1%}
+							<td><strike>{{i.nomClient}}</strike></td>
+							<td><strike>{{i.proforma}}</strike></td>
+							<td><strike>{{i.comis}}</strike></td>
+								{%ifequal i.facComisSol 1%}
+								<td><strike>si</strike></td>
+								{%else%}
+								<td><strike>no</strike></td>
+								{%endifequal%}
+							{%else%}
+							<td>{{i.nomClient}}</td>
+							<td>{{i.proforma}}</td>
+							<td>{{i.comis}}</td>
+								{%ifequal i.facComisSol 1%}
+								<td>si</td>
+								{%else%}
+								<td>no</td>
+								{%endifequal%}
+							{%endifequal%}
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IntermediariComiSol?idIntermediari={{i.idIntermediari}}&idFactura={{i.idFactura}}&facComisSol={{i.facComisSol}}"> <span
+								class="glyphicon glyphicon-envelope"></span></a></td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IntermediariComiPagada?idIntermediari={{i.idIntermediari}}&idFactura={{i.idFactura}}&comisPagada={{i.comisPagada}}"> <span
+								class="glyphicon glyphicon-eur"></span></a></td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IntermediariComiElimina?idIntermediari={{i.idIntermediari}}&idFactura={{i.idFactura}}"><span
+								class="glyphicon glyphicon-remove"></span></a></td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/EsquemaSelect?idEsquema={{i.idEsquema}}">esq</a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+
+
+	{%endifequal%}
+
+	</div>
+</div>
+
+
+{% include "footer.html" %}

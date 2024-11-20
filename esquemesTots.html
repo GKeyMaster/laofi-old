@@ -1,0 +1,46 @@
+{% include "header.html" %}
+
+
+<div class="container">
+	<div class="jumbotron" id="modif-jumbo-1">
+		<h2>Esquemes</h2>
+		<div class="container">
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Num</th>
+						<th>Nom</th>
+						<th>Direccio</th>
+						<th>Client</th>
+						<th>Select</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in esquemesTots%}
+						{%ifequal i.idEsquema 3848%}
+						{%else%}
+					<tr>
+						<td>{{i.numExpedient}}</td>
+						<td>{{i.nomExpedient}}</td>
+						<td>{{i.direcLocal}}</td>
+						<td>{{i.nomClient}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/EsquemaSelect?idEsquema={{i.idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+					</tr>
+						{%endifequal%}
+					{%endfor%}
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+
+
+	<!--  Fin Jumbotron -->
+
+</div>
+<!-- Fin container -->
+
+{% include "footer.html" %}
+

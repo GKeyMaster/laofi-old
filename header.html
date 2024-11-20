@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>armonic</title>
+
+<!-- Custom CSS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script> $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').focus()
+})</script>
+<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script src="js/timeline.js"></script> -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="css/styles.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+
+<script>
+//mouse over navbar
+$('.navbar').mouseover(function(event) {
+  $(this).find('.navbar-tool').show();
+});
+
+//mouse out of navbar
+$('.navbar').mouseout(function(event) {
+  $(this).find('.navbar-tool').hide();
+});
+
+//on close collapse
+$('.collapse').on('hidden.bs.collapse', function () {
+  var target = '#'+$(this).attr('data-parent');
+  $(target).removeClass('collapse-open');
+});
+
+//on open collapse
+$('.collapse').on('shown.bs.collapse', function () {
+  var target = '#'+$(this).attr('data-parent');
+  $(target).addClass('collapse-open');
+})
+
+</script>
+
+
+	     <link rel="stylesheet" href="css/jquery.ui.all.css">
+	     <script src="js/jquery-1.4.4.js"></script>
+	     <script src="js/jquery.ui.core.js"></script>
+	     <script src="js/jquery.ui.widget.js"></script>
+	     <script src="js/jquery.ui.datepicker.js"></script>
+
+	     <link rel="stylesheet" href="css/demos.css">
+	     <link rel="stylesheet" type="text/css" href="css/main.css"/>
+	     
+	     <script>
+	     $(function() {
+		     $( "#datepicker1" ).datepicker();
+		     $( "#datepicker2" ).datepicker();
+		     $( "#datepicker3" ).datepicker();
+		     $( "#datepicker4" ).datepicker();
+		     $( "#datepicker5" ).datepicker();
+		     $( "#datepicker6" ).datepicker();
+		     $( "#datepicker7" ).datepicker();
+		     $( "#datepicker8" ).datepicker();
+		     $( "#datepicker9" ).datepicker();
+		     $( "#datepicker10" ).datepicker();
+		     $( "#datepicker11" ).datepicker();
+		     $( "#datepicker12" ).datepicker();
+		     $( "#datepicker13" ).datepicker();
+		     $( "#datepicker14" ).datepicker();
+		     $( "#datepicker15" ).datepicker();
+		     $( "#datepicker16" ).datepicker();
+		     $( "#datepicker17" ).datepicker();
+		     $( "#datepicker18" ).datepicker();		     		     		     
+	     });
+	     </script>
+
+{%ifequal capsula 1%}
+<script>
+
+
+// Set the date we're counting down to
+var countDownDate = new Date("{{iniciCapsula.iniciCapsula}}").getTime();
+
+var tickAudio = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/41203/beep.mp3');
+
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now an the count down date
+  var distance = countDownDate + 30*60*1000  - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("capsula").innerHTML = minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("capsula").innerHTML = "REPETIR CAP?";
+    tickAudio.play();
+    alert("CAPSULA AGOTADA");
+  }
+}, 1000);
+</script>
+{%endifequal%}
+
+</head>
+
+<body onload="sortlist()">
+
+	
+
+	<div class="enTeteDePage">
+
+		{%ifequal fitxa 1%}
+		<nav class="navbar navbar-inverse navbar-static-top">
+		{%else%}
+		<nav class="navbar navbar-inverse navbar-static-top" style="background-color: #000000">
+		{%endifequal%}
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#navbar3">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand"><img
+						src="img/logoARn.jpg" height="2480" width="3508" alt="armonic">
+					</a>	
+				</div>
+				<div id="navbar3" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						{%ifequal capsula 1%}
+						<li><a style="font-size:20px" href="/EsquemaSelect?idEsquema={{iniciCapsula.idEsquema}}">{{iniciCapsula.numExpedient}}</a></li>
+						<li><a style="font-size:20px" href="/EsquemaSelect?idEsquema={{iniciCapsula.idEsquema}}">{{iniciCapsula.nomExpedient}}</a></li>
+						<li><a style="font-size:20px" href="/CapsulaRepetir" id="capsula"></a></li>
+						{%endifequal%}
+						<li class="active"><a href="/Index">Ini</a></li>
+						<li class="active"><a href="/EsquemaNou">ENou</a></li>
+						<li class="active"><a href="/EsquemesTots">ETots</a></li>
+						<!--<li class="active"><a href="/PissarraFac">Fet</a></li>-->
+						<li class="active"><a href="/PissarraCobro">Cob</a></li>
+						
+					
+						
+						<li class="active"><a href="/LiniatempsTreballador" style="font-size:40px"> {{treballadorSelect.claveTreballador}} </a></li>							
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+			<!--/.container-fluid -->
+		</nav>
+	</div>

@@ -1,0 +1,245 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	<div class="jumbotron" id="modif-jumbo-1">
+
+	{%ifequal tipo -1%} <!-- Sense  seleccionat -->
+			<h2>Pissarra</h2>	
+			<br>
+			<form action="/PissarraFac" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >FET</button>
+			</form>
+			<br>
+			<form action="/PissarraCobro" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >COBRAT</button>
+			</form>
+			<br>
+				<h2>Mesos anteriors</h2>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+					<thead>
+						<tr>
+							<th>any</th>
+							<th>mes</th>
+							<th>cobrat</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in pissarraMes%}
+						<tr>
+							<td>{{i.an}}</td>
+							<td>{{i.mes}}</td>
+							<td id=color2>{{i.cobroMes}}</td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/PissarraCobroMes?dataMes={{i.dataMes}}"> <span
+								class="glyphicon glyphicon-euro"></span></a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+
+	{%else%}
+		{%ifequal tipo -2%} <!-- facturat -->
+				<h2>FET ESTE MES:   {{totalEmpresaFac}}</h2>
+				<br><br><br>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+					<thead>
+						<tr>
+							<th>departament</th>
+							<th>per fer</th>
+							<th>fet</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ARMONIC</td>
+							<td>{{totalPendAR}}</td>
+							<td>{{totalFacAR}}</td>
+						</tr>
+					</tbody>
+				</table>			
+				</div>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+							<th>pressupost</th>
+							<th>acceptat</th>
+							<th>prof passat</th>
+							<th>pendent</th>
+							<th>prof actual</th>
+							<th>Select</th>
+							<th>Elimina</th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in pissarraFacAR%}
+						<tr>
+							{%ifequal i.pendent 0%}
+							<td><strike>{{i.nom}}</strike></td>
+							<td><strike>{{i.acceptat}}</strike></td>
+							<td><strike>{{i.anterior}}</strike></td>
+							<td id=color1><strike>{{i.pendent}}</strike></td>
+							<td id=color2><strike>{{i.facturat}}</strike></td>
+							{%else%}
+							<td>{{i.nom}}</td>
+							<td>{{i.acceptat}}</td>
+							<td>{{i.anterior}}</td>
+							<td id=color1>{{i.pendent}}</td>
+							<td id=color2>{{i.facturat}}</td>
+							{%endifequal%}
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/EsquemaSelect?idEsquema={{i.idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/SelectNoPisFact?idPressupost={{i.idPressupost}}"> <span
+								class="glyphicon glyphicon-remove"></span></a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+
+		{%else%}
+			{%ifequal tipo -3%} <!-- cobrat -->
+				<h2>COBRAT MES:   {{totalEmpresaCob}}  </h2>
+				<h3>{{mes}}  {{an}}</h3>
+				<br><br><br>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+					<thead>
+						<tr>
+							<th>departament</th>
+							<th>per cobrar</th>	
+							<th>cobrat</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ARMONIC</td>
+							<td>{{totalPendCobAR}}</td>
+							<td>{{totalCobAR}}</td>
+						</tr>
+					</tbody>
+				</table>			
+				</div>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+							<th>nom</th>
+							<th>proforma</th>
+							<th>tot treb</th>
+							<th>tot supli</th>
+							<th>cob antes</th>
+							<th>pendent</th>
+							<th>cob actual</th>
+							<th>dataCobro</th>
+							<th>select</th>
+							<th>elimina</th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in pissarraCobroAR%}
+						<tr>
+							{%ifequal i.npendent 0%}
+							<td><strike>{{i.nom}}</strike></td>
+							<td><strike>{{i.proforma}}</strike></td>
+							<td><strike>{{i.facturat}}</strike></td>
+							<td><strike>{{i.suplido}}</strike></td>
+							<td><strike>{{i.anterior}}</strike></td>
+							<td id=color1><strike>{{i.pendent}}</strike></td>
+							<td id=color2><strike>{{i.cobrat}}</strike></td>
+							<td><strike>{{i.dataCobro}}</strike></td>
+							{%else%}
+							<td>{{i.nom}}</td>
+							<td>{{i.proforma}}</td>
+							<td>{{i.facturat}}</td>
+							<td>{{i.suplido}}</td>
+							<td>{{i.anterior}}</td>
+							<td id=color1>{{i.pendent}}</td>
+							<td id=color2>{{i.cobrat}}</td>
+							<td>{{i.dataCobro}}</td>
+							{%endifequal%}
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/EsquemaSelect?idEsquema={{i.idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/SelectNoPisCob?idFactura={{i.idFactura}}"> <span
+								class="glyphicon glyphicon-remove"></span></a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+			{%else%}<!-- fet un mes -->
+				<h2>FET MES:   {{totalEmpresaFac}}</h2>
+				<h3>{{mes}}  {{an}}</h3>
+				<br><br><br>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+							<th>departament</th>
+							<th>fet</th>		
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ARMONIC</td>
+							<td>{{totalFacAR}}</td>
+						</tr>
+					</tbody>
+				</table>			
+				</div>
+				<div class="container">
+				<table id="mytable" class="table table-striped">
+					<thead>
+						<tr>
+							<th>num</th>
+							<th>esquema</th>
+							<th>proforma</th>
+							<th>factura</th>
+							<th>quantitat</th>
+							<th>dataCobro</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for i in pissarraFacAR%}
+						<tr>
+							<td>{{i.numExpedient}}</td>
+							<td>{{i.nomExpedient}}</td>
+							<td>{{i.proforma}}</td>
+							<td>{{i.factura}}</td>
+							<td>{{i.cpreu}}</td>
+							<td>{{i.dataCobro}}</td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/ProformaSelect?idFactura={{i.idFactura}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>			
+				</div>
+			
+			{%endifequal%}
+
+		{%endifequal%}
+	{%endifequal%}
+
+	</div>
+</div>
+
+
+{% include "footer.html" %}

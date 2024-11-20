@@ -1,0 +1,124 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+		<h2>Treball</h2>
+		{%ifequal idTreball -1%} <!-- Preparat per a  nou -->
+			<div class="container">
+			<form action="/TreballCrea" method="get">
+					<div class="form-group">
+						<label>Tipo Treball:</label> 
+						<select name="idTipoTreball" class="form-control">
+							<option value="-1"></option>
+							{%for i in tipoTreballAct%}
+							<option value={{i.idTipoTreball}}>{{i.claveTreball}}  {{i.treball}}</option>
+							{%endfor%}
+						</select>
+						<a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TipoTreballTots?idEsquema={{idEsquema}}&idPressupost={{idPressupost}}"> <span
+								class="glyphicon glyphicon-pencil"></span> Edita Tipos Treball</a>
+					</div>
+			<div class="form-group">
+				<label>Treball no habitual: </label> <input type="text"
+				class="form-control" name="treballNH" placeholder="escriu treball si no selecciones en la llista">
+			</div>
+			<div class="form-group">
+				<label>Preu: </label> <input type="text"
+				class="form-control" name="preu" placeholder="preu">
+			</div>
+
+				<button type="submit" class="btn btn-lg btn-primary">Treball Nou</button>
+				<div><input type="text" name="acceptat" value=1 style="visibility: hidden" /></div>
+				<div><input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+				<div><input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" /></div>
+			</form>
+			<br>
+			<form action="/PressupostSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Pressupost</button>
+				<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" /></div>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+			</form>
+
+			</div>
+				{%if treballPressup%}
+					<table id="mytable" class="table table-striped">
+						<thead>
+							<tr>
+								<th>codi</th>
+								<th>treball</th>
+								<th>preu</th>
+								<th>acceptat</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{%for i in treballPressup%}
+							<tr>
+								{%for j in tipoTreballTots%}
+									{%ifequal i.idTipoTreball j.idTipoTreball%}
+									<td>{{j.claveTreball}}</td>
+									<td>{{j.treball}}</td>
+									{%endifequal%}
+								{%endfor%}
+								<td>{{i.preu}}</td>
+								{%ifequal i.acceptat 0%}
+									<td>no</td>
+								{%else%}
+									<td>si</td>
+								{%endifequal%}
+								<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+									href="/TreballSelect?idPressupost={{idPressupost}}&idEsquema={{idEsquema}}&idTreball={{i.idTreball}}"> <span
+										class="glyphicon glyphicon-pencil"></span></a></td>
+								<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+									href="/TreballAcceptatNo?idPressupost={{idPressupost}}&idEsquema={{idEsquema}}&idTreball={{i.idTreball}}"> <span
+										class="glyphicon glyphicon-remove"></span></a></td>
+							</tr>
+							{%endfor%}
+						</tbody>
+					</table>
+				{%endif%}
+
+		{%else%} <!--  select -->
+			<form action="/PressupostSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Pressupost</button>
+				<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" /></div>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+			</form>
+				<form action="/TreballEdita" method="get">
+					<div class="form-group">
+						<label>Tipo Treball:</label> 
+						<select name="idTipoTreball" class="form-control">
+                             {%for i in tipoTreballTots%}
+                                  {%ifequal i.idTipoTreball treballSelect.idTipoTreball%}
+                                       <option value="{{i.idTipoTreball}}">{{i.claveTreball}}   {{i.treball}}</option>
+                                  {%endifequal%}
+                             {%endfor%}
+							{%for i in tipoTreballAct%}
+							<option value={{i.idTipoTreball}}>{{i.claveTreball}}   {{i.treball}}</option>
+							{%endfor%}
+						</select>
+						<a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TipoTreballTots?idEsquema={{idEsquema}}&idPressupost={{idPressupost}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a>
+					</div>	
+			<div class="form-group">
+				<label>Preu: </label> <input type="text"
+				class="form-control" name="preu" value="{{treballSelect.preu}}">
+			</div>
+
+				<button type="submit" class="btn btn-lg btn-primary">OK</button>
+				<div><input type="text" name="acceptat" value=1 style="visibility: hidden" /></div>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+				<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" /></div>
+				<input type="text" name="idTreball" value="{{idTreball}}" style="visibility: hidden" /></div>
+			</form>
+
+				</tbody>
+			</div>
+		</div>
+		
+		{%endifequal%}
+
+
+{% include "footer.html" %}

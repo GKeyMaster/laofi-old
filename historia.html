@@ -1,0 +1,167 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+
+			<h2>Historia</h2>
+			
+		<div class="container">
+			{%ifequal idHistoria -1%}
+			<form action="/HistoriaCrea" method="get">
+			<div class="form-group">
+				<label>Treballador:</label> 
+				<select name="idTreballador" class="form-control">
+                                     <option value="{{treballadorSelect.idTreballador}}">{{treballadorSelect.claveTreballador}}</option>
+						   {%for i in treballadorAct%}
+									 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+						   {%endfor%}
+				</select>
+			</div>			
+					<div class="form-group">
+						<label>Incidencia:</label> 
+						<select name="idIncidencia" class="form-control">
+                            {%for i in incidenciaTots%}
+                                  {%ifequal i.idIncidencia 2%}
+                                       <option value="{{i.idIncidencia}}">{{i.incidencia}}</option>
+                                  {%endifequal%}
+                            {%endfor%}
+							{%for i in incidenciaAct%}
+							<option value={{i.idIncidencia}}>{{i.incidencia}}</option>
+							{%endfor%}
+						</select>
+						<a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IncidenciaTots?idEsquema={{esquemaSelect.idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a>
+					</div>	
+			<div class="form-group">
+				<label>Data: </label> <input type="text"
+				class="form-control" name="dataHist" id="datepicker2" value="{{dataHui}}" >
+			</div>	
+			<div class="form-group">
+				<label>Historia: </label> <input type="text"
+				class="form-control" name="historia" placeholder="historia">
+			</div>	
+			<div class="form-group">
+				<label>Contingut: </label>
+				<textarea class="form-control" name="contingut" rows="20"></textarea>
+			</div>
+				<button type="submit" class="btn btn-lg btn-primary" >Crea Historia</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>
+			<br>
+			{%else%}
+				{%ifequal idHistoria -2%}
+						<div class="container">
+
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Treb</th>
+						<th>Incidencia</th>
+						<th>Data</th>
+						<th>Historia</th>
+						<th></th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in historiaCompleta%}
+					<tr>
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in incidenciaTots%}
+							{%ifequal i.idIncidencia j.idIncidencia%}
+							<td>{{j.incidencia}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.dataHist}}</td>
+						<td>{{i.historia}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/HistoriaSelect?idHistoria={{i.idHistoria}}&idEsquema={{idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+					</tr>
+					<tr>
+						<td colspan="5">{{i.contingut}}</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>	
+
+		</div>
+				
+				
+				
+				
+				{%else%}
+		<form action="/HistoriaEdita" method="get">
+
+			<div class="form-group">
+				<label>Treballador:</label> 
+				<select name="idTreballador" class="form-control">
+                           {%for i in treballadorTots%}
+                                {%ifequal i.idTreballador historiaSelect.idTreballador%}
+                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+                                {%endifequal%}
+                           {%endfor%}
+						   {%for i in treballadorAct%}
+									 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+						   {%endfor%}
+				</select>
+			</div>
+					<div class="form-group">
+						<label>Incidencia:</label> 
+						<select name="idIncidencia" class="form-control">
+                            {%for i in incidenciaTots%}
+                                  {%ifequal i.idIncidencia historiaSelect.idIncidencia%}
+                                       <option value="{{i.idIncidencia}}">{{i.incidencia}}</option>
+                                  {%endifequal%}
+                            {%endfor%}
+							{%for i in incidenciaAct%}
+							<option value={{i.idIncidencia}}>{{i.incidencia}}</option>
+							{%endfor%}
+						</select>
+						<a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/IncidenciaTots?idEsquema={{esquemaSelect.idEsquema}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a>
+					</div>		
+			<div class="form-group">
+				<label>Data: </label> <input type="text"
+				class="form-control" name="dataHist" id="datepicker3" value="{{historiaSelect.dataHist}}" >
+			</div>	
+			<div class="form-group">
+				<label>Historia: </label> <input type="text"
+				class="form-control" name="historia" value="{{historiaSelect.historia}}">
+			</div>	
+			<div class="form-group">
+				<label>Contingut: </label>
+				<textarea class="form-control" name="contingut" rows="20">{{historiaSelect.contingut}}</textarea>
+			</div>
+
+					
+					<input type="text" name="idHistoria" value="{{historiaSelect.idHistoria}}" style="visibility: hidden" />
+			
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />	
+				<div>	
+					<button type="submit" class="btn btn-lg btn-primary">OK</button>
+				</div>
+				
+			</form>
+			<br>
+	
+				{%endifequal%}
+
+		{%endifequal%}
+		
+				<form action="/EsquemaSelect" method="get">
+					<button type="submit" class="btn btn-lg btn-primary"  >Esquema</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				</form>
+
+
+		</div>
+</div>
+
+{% include "footer.html" %}

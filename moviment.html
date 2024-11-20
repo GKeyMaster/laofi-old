@@ -1,0 +1,351 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	<div class="jumbotron" id="modif-jumbo-1">
+	<h2>Moviments</h2>
+	{%ifequal idMoviment -1%} <!-- Sense  seleccionat -->
+	
+			<br>	
+			
+			<div class="row" id="modif-row-1">
+				<div class="col-lg-2">
+				<form action="/MovimentNouGasto" method="get">
+					<button type="submit" class="btn btn-lg btn-primary" >caixa a gasto</button>
+				</form>
+				</div>
+			</div>
+			<br><br>
+			
+			<div class="row" id="modif-row-1">
+				<div class="col-lg-2">
+					<form action="/MovimentNouIngres" method="get">
+						<button type="submit" class="btn btn-lg btn-primary" >banc a caixa</button>
+					</form>
+				</div>
+				<div class="col-lg-4">
+					<form action="/MovimentNouTraspas" method="get">
+						<button type="submit" class="btn btn-lg btn-primary" >caixa a banc</button>
+					</form>
+				</div>
+			</div>
+			
+			<br>
+
+			<div class="form-group">
+				<label>Saldo Caixa: </label> <input type="text"
+				class="form-control" name="origen" style="background-color: #BDBDBD" value="{{saldoBanc}}">
+			</div>
+			<form action="/QuadraCaixa" method="get">
+				<button type="submit" class="btn btn-lg btn-primary" >Quadra Caixa</button>
+				<input type="text" name="idTreballador" value="{{treballadorSelect.idTreballador}}" style="visibility: hidden" /></div>
+			</form>
+			<br>
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>treballador</th>
+						<th>data quadra</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						{%for j in treballadorTots%}
+							{%ifequal quadraBancUltim.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{quadraBancUltim.dataQuadraBanc}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>treballador</th>
+						<th>origen</th>
+						<th>desti</th>
+						<th>data</th>
+						<th>quantitat</th>
+						<th>descripcio</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in movimentUltims%}
+					<tr>
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.origen}}</td>
+						<td>{{i.desti}}</td>
+						<td>{{i.dataMov}}</td>
+						{%ifequal i.idTipoMov 2%}
+						<td id=color3>-{{i.quantitat}}</td>
+						{%else%}
+						<td>{{i.quantitat}}</td>
+						{%endifequal%}
+						<td>{{i.descripcio}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/MovimentSelect?idMoviment={{i.idMoviment}}&idFactura={{i.idFactura}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			
+
+	{%else%}
+		{%ifequal idMoviment -2%}
+			<form action="/MovimentCreaIngres" method="post">
+			<div class="form-group">
+				<label>Treballador:</label> 
+				<select name="idTreballador" class="form-control">
+                                     <option value="{{treballadorSelect.idTreballador}}">{{treballadorSelect.claveTreballador}}</option>
+						   {%for i in treballadorAct%}
+									 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+						   {%endfor%}
+				</select>
+			</div>	
+			<div class="form-group">
+				<label>Origen: </label> <input type="text"
+				class="form-control" name="origen" style="background-color: #BDBDBD" value="Banc">
+			</div>
+			<div class="form-group">
+				<label>Desti: </label> <input type="text"
+				class="form-control" name="desti" style="background-color: #BDBDBD" value="Caixa">
+			</div>
+			<div class="form-group">
+				<label>Data: </label> <input type="text"
+				class="form-control" name="dataMov" id="datepicker1" value="{{dataHui}}" >
+			</div>
+			<div class="form-group">
+				<label>Quantitat: </label> <input type="text"
+				class="form-control" name="quantitat" placeholder="total iva inclos" >
+			</div>
+			<div class="form-group">
+				<label>Descripcio: </label> <input type="text"
+				class="form-control" name="descripcio" placeholder="descripcio" >
+			</div>
+				<button type="submit" class="btn btn-lg btn-primary" >OK</button>
+			</form>
+			<br>
+		{%else%}
+		
+			{%ifequal idMoviment -3%}
+				<form action="/MovimentCreaGasto" method="post">
+				<div class="form-group">
+					<label>Treballador:</label> 
+					<select name="idTreballador" class="form-control">
+	                                     <option value="{{treballadorSelect.idTreballador}}">{{treballadorSelect.claveTreballador}}</option>
+							   {%for i in treballadorAct%}
+										 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+							   {%endfor%}
+					</select>
+				</div>	
+				<div class="form-group">
+					<label>Origen: </label> <input type="text"
+					class="form-control" name="origen" style="background-color: #BDBDBD" value="Caixa">
+				</div>
+				<label>Tipo Gasto:</label>
+				<select name="tipoGasto" class="form-control">
+						<option value=5>cartereta</option>
+						<option value=1>altres</option>
+						<option value=21>complement</option>
+				</select>
+				<div class="form-group">
+					<label>Data: </label> <input type="text"
+					class="form-control" name="dataMov" id="datepicker2" value="{{dataHui}}" >
+				</div>
+				<div class="form-group">
+					<label>Quantitat: </label> <input type="text"
+					class="form-control" name="quantitat" placeholder="total iva inclos" >
+				</div>
+				<div class="form-group">
+					<label>Descripcio: </label> <input type="text"
+					class="form-control" name="descripcio" placeholder="descripcio" >
+				</div>
+					<button type="submit" class="btn btn-lg btn-primary" >OK</button>
+				</form>
+				<br>
+			{%else%}
+				{%ifequal idMoviment -4%}
+				<form action="/CreaIngresProf" method="get">
+				<div class="form-group">
+					<label>Treballador:</label> 
+					<select name="idTreballador" class="form-control">
+	                                     <option value="{{treballadorSelect.idTreballador}}">{{treballadorSelect.claveTreballador}}</option>
+							   {%for i in treballadorAct%}
+										 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+							   {%endfor%}
+					</select>
+				</div>	
+				<div class="form-group">
+					<label>Origen: </label> <input type="text"
+					class="form-control" name="origen" style="background-color: #BDBDBD" value="Proforma">
+				</div>
+				<label>Desti:</label>
+				<select name="idBanc2" class="form-control">
+						<option value=0></option>
+						<option value=1>caixa</option>
+						<option value=2>banc</option>
+				</select>
+				<div class="form-group">
+					<label>Data: </label> <input type="text"
+					class="form-control" name="dataMov" id="datepicker6" value="{{dataHui}}" >
+				</div>
+				<div class="form-group">
+					<label>Quantitat: </label> <input type="text"
+					class="form-control" name="quantitat" placeholder="total iva inclos" >
+				</div>
+				<div class="form-group">
+					<label>Descripcio: </label> <input type="text"
+					class="form-control" name="descripcio" placeholder="descripcio" >
+				</div>
+					<button type="submit" class="btn btn-lg btn-primary" >OK</button>
+					<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+				</div>
+				</form>
+				<br>
+				
+				{%else%}
+					{%ifequal idMoviment -5%}
+						<form action="/MovimentCreaGasto" method="post">
+						<div class="form-group">
+							<label>Treballador:</label> 
+							<select name="idTreballador" class="form-control">
+			                                     <option value="{{treballadorSelect.idTreballador}}">{{treballadorSelect.claveTreballador}}</option>
+									   {%for i in treballadorAct%}
+												 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+									   {%endfor%}
+							</select>
+						</div>	
+						<div class="form-group">
+							<label>Origen: </label> <input type="text"
+							class="form-control" name="origen" style="background-color: #BDBDBD" value="Caixa">
+						</div>
+						<div class="form-group">
+							<label>Desti: </label> <input type="text"
+							class="form-control" name="tipoGasto" style="background-color: #BDBDBD" value=3>
+						</div>
+						<div class="form-group">
+							<label>Data: </label> <input type="text"
+							class="form-control" name="dataMov" id="datepicker2" value="{{dataHui}}" >
+						</div>
+						<div class="form-group">
+							<label>Quantitat: </label> <input type="text"
+							class="form-control" name="quantitat" placeholder="total iva inclos" >
+						</div>
+						<div class="form-group">
+							<label>Descripcio: </label> <input type="text"
+							class="form-control" name="descripcio" placeholder="descripcio" >
+						</div>
+							<button type="submit" class="btn btn-lg btn-primary" >OK</button>
+						</form>
+						<br>
+					{%else%}
+						<form action="/MovimentEdita" method="get">
+						<div class="form-group">
+						<label>Treballador:</label> 
+						<select name="idTreballador" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador movimentSelect.idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+		                           <option></option>
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+						</div>
+							{%ifequal movimentSelect.idTipoMov 1%}
+								<label>Desti:</label>
+								<select name="idBanc2" class="form-control">
+										{%ifequal movimentSelect.idBanc2 1%}
+											<option value=1>caixa</option>
+											<option value=2>banc</option>
+										{%else%}
+											<option value=2>banc</option>
+											<option value=1>caixa</option>
+										{%endifequal%}
+								</select>
+								<br>
+								<div class="container">
+									<table id="mytable" class="table table-striped">
+										<thead>
+											<tr>
+												<th>proforma</th>
+												<th>pendent</th>
+												<th>cobrat</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+													<td id=color4>{{total}}</td>
+													<td id=color4>{{pendent}}</td>
+													<td id=color4>{{cobrat}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							{%else%}
+								{%ifequal movimentSelect.idTipoMov 2%}
+									<label>Tipo Gasto:</label>
+									<select name="tipoGasto" class="form-control">
+											{%ifequal movimentSelect.desti 5%}
+											<option value=5>cartereta</option>
+											<option value=1>altres</option>
+											<option value=21>complement</option>
+											{%else%}
+												{%ifequal movimentSelect.desti 1%}
+												<option value=1>altres</option>
+												<option value=5>cartereta</option>
+												<option value=21>complement</option>
+												{%else%}
+												<option value=21>complement</option>
+												<option value=5>cartereta</option>
+												<option value=1>altres</option>
+												{%endifequal%}
+											{%endifequal%}
+									</select>
+								{%else%}
+									<br>
+								{%endifequal%}
+							{%endifequal%}
+						<div class="form-group">
+							<label>Data: </label> <input type="text"
+							class="form-control" name="dataMov" id="datepicker3" value="{{movimentSelect.dataMov}}" >
+						</div>
+						<div class="form-group">
+							<label>Quantitat: </label> <input type="text"
+							class="form-control" name="quantitat" value="{{movimentSelect.quantitat}}" >
+						</div>
+						<div class="form-group">
+							<label>Descripcio: </label> <input type="text"
+							class="form-control" name="descripcio" value="{{movimentSelect.descripcio}}" >
+						</div>
+							<button type="submit" class="btn btn-lg btn-primary" >OK</button>
+							<input type="text" name="idMoviment" value="{{idMoviment}}" style="visibility: hidden" />
+							<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+						</form>
+						<br><br>
+						<form action="/MovimentElimina" method="get">
+							<button type="submit" class="btn btn-lg btn-primary" >ELIMINA</button>
+							<input type="text" name="idMoviment" value="{{idMoviment}}" style="visibility: hidden" />
+						</form>
+					{%endifequal%}
+				{%endifequal%}
+			{%endifequal%}				
+		{%endifequal%}
+	{%endifequal%}
+
+	</div>
+</div>
+
+
+{% include "footer.html" %}

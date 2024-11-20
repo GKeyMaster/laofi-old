@@ -1,0 +1,56 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+	
+			<h2>Ranking</h2>
+
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>num</th>
+						<th>nom</th>
+						<th>cap</th>
+						<th>ing</th>
+						<th>cost</th>
+						<th>benef</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in ranking%}
+						{%ifequal i.tramit 0%}
+						<tr>
+							<td>{{i.numExpedient}}</td>
+							<td>{{i.nomExpedient}}</td>
+							<td>{{i.cap}}</td>
+							<td>{{i.eurT}}</td>
+							<td>{{i.costT}}</td>
+							<td>{{i.benefT}}</td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+								href="/EliminaRanking?idEsquema={{i.idEsquema}}"> <span
+									class="glyphicon glyphicon-remove"></span></a></td>
+	
+						</tr>
+						{%else%}
+						<tr>
+							<td id=color5>{{i.numExpedient}}</td>
+							<td id=color5>{{i.nomExpedient}}</td>
+							<td id=color5>{{i.cap}}</td>
+							<td id=color5>{{i.eurT}}</td>
+							<td id=color5>{{i.costT}}</td>
+							<td id=color5>{{i.benefT}}</td>
+							<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+								href="/EliminaRanking?idEsquema={{i.idEsquema}}"> <span
+									class="glyphicon glyphicon-remove"></span></a></td>
+	
+						</tr>
+						{%endifequal%}
+					{%endfor%}
+				</tbody>
+			</table>
+			
+		</div>
+
+
+{% include "footer.html" %}

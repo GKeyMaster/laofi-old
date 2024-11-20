@@ -1,0 +1,258 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+			<div class="container">
+			<form action="/EsquemaSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Esquema</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+			</form>
+			<br />
+		<h2>Proforma</h2>
+		{%ifequal idFactura -1%} <!-- Preparat per a  nou -->
+			<div class="container">
+			<form action="/ProformaCrea" method="post">
+
+			
+			<div class="form-group">
+				<label>Titol Factura: </label> <input type="text"
+				class="form-control" name="titolFactura" placeholder="titol factura" >
+			</div>
+
+			<div class="form-group">
+				<label>Client:</label> 
+				<select name="idClient" class="form-control">
+                           {%for i in clientTots%}
+                                {%ifequal i.idClient proformaSelect.idClient%}
+                                     <option value="{{i.idClient}}">{{i.nomClient}}</option>
+                                {%endifequal%}
+                           {%endfor%}
+						   {%for i in clientTots%}
+									 <option value={{i.idClient}}>{{i.nomClient}}</option>
+						   {%endfor%}
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Proforma: </label> <input type="text"
+				class="form-control" name="proforma" value="{{proformaSelect.proforma}}">
+			</div>
+			<div class="form-group">
+				<label>Data Prof: </label> <input type="text"
+				class="form-control" name="dataProforma" id="datepicker1" value="{{proformaSelect.dataProforma}}" >
+			</div>
+			<div class="form-group">
+				<label>Ultima Fact: </label> <input type="text"
+				class="form-control" name="proforma" style="background-color: #BDBDBD" value="{{ultFact}}">
+			</div>
+			<div class="form-group">
+				<label>Factura: </label> <input type="text"
+				class="form-control" name="factura" placeholder="">
+			</div>
+			<div class="form-group">
+				<label>Data Fact: </label> <input type="text"
+				class="form-control" name="dataFactura" id="datepicker2" placeholder="" >
+			</div>
+			<div class="form-group">
+				<label>En Pissarra:</label> 
+				<select name="enPis" class="form-control">
+					<option value=1>si</option>
+					<option value=0>no</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-lg btn-primary" >Crea Proforma</button>
+			<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" /></div>
+			<input type="text" name="idUbicacio" value="{{3}}" style="visibility: hidden" /></div>
+			</form>
+
+			</div>
+
+		{%else%} <!--  select -->
+			{%ifequal idFactura -2%} 
+			
+			{%else%}
+
+				<div class="container">
+
+				<form action="/ProformaEdita" method="get">
+				
+			
+			<div class="form-group">
+				<label>Titol Factura: </label> <input type="text"
+				class="form-control" name="titolFactura" value="{{proformaSelect.titolFactura}}">
+			</div>
+
+			<div class="form-group">
+				<label>Client:</label> 
+				<select name="idClient" class="form-control">
+                           {%for i in clientTots%}
+                                {%ifequal i.idClient proformaSelect.idClient%}
+                                     <option value="{{i.idClient}}">{{i.nomClient}}</option>
+                                {%endifequal%}
+                           {%endfor%}
+						   {%for i in clientTots%}
+									 <option value={{i.idClient}}>{{i.nomClient}}</option>
+						   {%endfor%}
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Proforma: </label> <input type="text"
+				class="form-control" name="proforma" value="{{proformaSelect.proforma}}">
+			</div>
+			<div class="form-group">
+				<label>Data Prof: </label> <input type="text"
+				class="form-control" name="dataProforma" id="datepicker3" value="{{proformaSelect.dataProforma}}" >
+			</div>
+			<div class="form-group">
+				<label>Ultima Fact: </label> <input type="text"
+				class="form-control" name="proforma" style="background-color: #BDBDBD" value="{{ultFact}}">
+			</div>
+			<div class="form-group">
+				<label>Factura: </label> <input type="text"
+				class="form-control" name="factura" value="{{proformaSelect.factura}}">
+			</div>
+			<div class="form-group">
+				<label>Data Fact: </label> <input type="text"
+				class="form-control" name="dataFactura" id="datepicker4" value="{{proformaSelect.dataFactura}}" >
+			</div>
+					<div class="form-group">
+						<label>En Pissarra:</label> 
+						<select name="enPis"
+							class="form-control">
+							{%ifequal proformaSelect.enPis 0%}
+							<option value=0>no</option>
+							{%else%}
+							<option value=1>si</option>
+							{%endifequal%}
+							<option value=0>no</option>
+							<option value=1>si</option>
+						</select>
+					</div>
+			{%if proformaSelect.dataCobro%}
+			<div class="form-group">
+				<label>Data Cobro: </label> <input type="text"
+				class="form-control" name="dataCobro" id="datepicker5" value="{{proformaSelect.dataCobro}}">
+			</div>
+			{%endif%}
+
+					<div>
+						<button type="submit" class="btn btn-lg btn-primary">OK</button>
+					</div>
+					<div>
+						<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+					</div>
+					<div>
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</div>
+				</form>
+				
+			<br>
+			<form action="/TreballFacNou" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Inserta Treball</button>
+				<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+				<input type="text" name="idUbicacio" value="{{3}}" style="visibility: hidden" /></div>
+			</form>
+			<br>
+
+		{%if treballsLFF%}
+		<h3>Treballs</h3>
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>treball</th>
+						<th>preu</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in treballsLFF%}
+					<tr>
+						{%for j in treballsLF%}
+							{%ifequal i.idTreball j.idTreball%}
+							<td>{{j.treball}}</td>
+							<td>{{j.preu}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TreballFacSelect?idFactura={{idFactura}}&idLiniaFactura={{i.idLiniaFactura}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TreballFacElimina?idFactura={{idFactura}}&idLiniaFactura={{i.idLiniaFactura}}"> <span
+								class="glyphicon glyphicon-remove"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+		{%endif%}
+		
+			<br>
+			<form action="/SuplidoFacNou" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Inserta Suplido</button>
+				<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+			</form>
+			<br>
+		
+		{%if treballsLSF%}
+		<h3>Suplidos</h3>
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>suplido</th>
+						<th>quantitat</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in treballsLSF%}
+					<tr>
+						<td>{{i.suplido}}</td>
+						<td>{{i.preuSuplido}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/SuplidoFacSelect?idFactura={{idFactura}}&idLiniaSuplidos={{i.idLiniaSuplidos}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/SuplidoFacElimina?idFactura={{idFactura}}&idLiniaSuplidos={{i.idLiniaSuplidos}}"> <span
+								class="glyphicon glyphicon-remove"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+		{%endif%}
+		
+			<form action="/MovimentNouIngresProf" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Crea Ingres</button>
+				<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+			</form>
+			<br />
+	
+			
+         <br>
+
+					
+			{%endifequal%}
+		{%endifequal%}
+		{%ifequal proformaSelect.idClient 1505%}
+		{%else%}
+			{%if treballsLFF%}
+	
+				<form action="/ImpFactura" method="get">
+					<button type="submit" class="btn btn-lg btn-primary">Imp Proforma</button>
+					<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+					<input type="text" name="esFactura" value=0 style="visibility: hidden" />
+				</form>
+				{%if proformaSelect.factura%}
+				<br />
+				<form action="/ImpFactura" method="get">
+					<button type="submit" class="btn btn-lg btn-primary">Imp Factura</button>
+					<input type="text" name="idFactura" value="{{idFactura}}" style="visibility: hidden" />
+					<input type="text" name="esFactura" value=1 style="visibility: hidden" />
+				</form>
+				{%endif%}
+	
+			{%endif%}
+		{%endifequal%}
+		</div>
+
+
+{% include "footer.html" %}

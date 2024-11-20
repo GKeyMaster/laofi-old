@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+            <head> <!-- titol en pestana -->  
+               <title>facturaImp</title>
+               <style type="text/css">
+<!--
+.Estilo2 {
+	font-size: 10mm;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.Estilo3 {font-size: 5mm; font-family: Arial, Helvetica, sans-serif; }
+.Estilo4 {
+	font-size: 4mm;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.Estilo5 {font-size: 3mm; font-family: Arial, Helvetica, sans-serif;font-family: Arial, Helvetica, sans-serif;}
+.Estilo6 {font-size: 5mm; font-family: Arial, Helvetica, sans-serif; font-weight: bold; }
+-->
+               </style>
+        </head>
+        <head>
+		<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />
+        </head>
+        <body>
+            <p>{%ifequal esFactura 1%} 
+              <a class="Estilo2" style="position: absolute; top: 23px; left: 289px"> FACTURA </a>
+              <a class="Estilo3" style="position: absolute; top: 332px; left: 30px"> ARMONIC LAOFI S.L. </a>
+			  <a class="Estilo3" style="position: absolute; top: 352px; left: 30px"> B12681367 </a>
+				  <a class="Estilo3" style="position: absolute; top: 369px; left: 30px"> C/San Roque 88 </a>
+		           <a class="Estilo3" style="position: absolute; top: 389px; left: 30px"> 12004 Castell&oacute;n </a>
+		           <a class="Estilo3" style="position: absolute; top: 408px; left: 30px"> tel: 964 63 07 41 </a>
+					   <a class="Estilo3" style="position: absolute; top: 448px; left: 30px"> armonic@armonic.es </a>
+		               <a class="Estilo3" style="position: absolute; top: 469px; left: 30px"> www.armonic.es </a></p>
+            <p> {%else%} <a class="Estilo2" style="position: absolute; top: 23px; left: 269px"> PROFORMA </a>
+				<a class="Estilo3" style="position: absolute; top: 408px; left: 30px"> tel: 964 63 07 41 </a>
+              <a class="Estilo3" style="position: absolute; top: 448px; left: 30px"> armonic@amonic.es </a>
+                       <a class="Estilo3" style="position: absolute; top: 469px; left: 30px"> www.armonic.es </a>                       
+              
+              {%endifequal%} </p>
+			  <a class="Estilo5" style="position: absolute; top: 1081px; left: 111px; width: 700px;"> ARMONIC LAOFI S.L. C/San Roque 88 CP12004 Castellon RM Tomo 1278, L 841, F 22, H CS-24036</a>
+            <div>
+			   <div align="left">
+			     <table style="position: absolute; top: 104px; left: 425px; width: 365px;">
+			       <tr>
+			         <td width="150" align="left" class="Estilo6">&nbsp;</td>
+				   </tr>
+			       <p><tr>
+			         {%for client in clients%}
+			         {%ifequal client.idClient facturaSelect.idClient%}
+			         <td width="357" class="Estilo3"><div align="left">{{client.nomClient}}</div></td>
+                          {%endifequal%}
+                     {%endfor%}				   </tr></p>
+			       <p><tr>
+			         {%for client in clients%}
+			         {%ifequal client.idClient facturaSelect.idClient%}
+			         <td width="357" class="Estilo3"><div align="left">{{client.cifClient}}</div></td>
+                          {%endifequal%}
+                     {%endfor%}				   </tr></p>
+			       <p><tr>
+			         {%for client in clients%}
+			         {%ifequal client.idClient facturaSelect.idClient%}
+			         <td width="357" class="Estilo3"><div align="left">{{client.direccio}}</div></td>
+                          {%endifequal%}
+                     {%endfor%}				   </tr></p>
+			       <p><tr>
+			         {%for client in clients%}
+			         {%ifequal client.idClient facturaSelect.idClient%}
+			         <td width="357" class="Estilo3"><div align="left">{{client.codiPostal}}</div></td>
+                          {%endifequal%}
+                     {%endfor%}				   </tr></p>
+				 				 				 				 
+	             </table>
+		      </div>
+		</div>
+            {%ifequal esFactura 1%}
+		<div>
+			   <table style="position: absolute; top: 376px; left: 394px; width: 300;">
+			     <tr>
+			    	<td width="150" align="left" class="Estilo6"> Factura: </td>
+					<td width="150" align="left" class="Estilo3"> {{facturaSelect.factura}}  </td>
+				 </tr>
+				 <tr>
+			    	<td width="150" align="left" class="Estilo6"> Fecha: </td>
+					<td width="150" align="left" class="Estilo3"> {{facturaSelect.dataFactura}} </td>
+				 </tr>
+		      </table>
+			   <div align="left"></div>
+		</div>
+			{%else%}
+		<div>
+			   <table style="position: absolute; top: 376px; left: 394px; width: 300;">
+			     <tr>
+			    	<td width="150" align="left" class="Estilo6"> Factura: </td>
+					<td width="150" align="left" class="Estilo3"> {{facturaSelect.proforma}} </td>
+				 </tr>
+				 <tr>
+			    	<td width="150" align="left" class="Estilo6"> Fecha: </td>
+					<td width="150" align="left" class="Estilo3"> {{facturaSelect.dataProforma}} </td>
+				 </tr>
+		      </table>
+			   <div align="left"></div>
+		</div>			
+            <div align="left">{%endifequal%}
+			
+		    </div>
+
+		  
+	    <div align="justify">
+	      <textarea name="titol" wrap="virtual" class="Estilo3" style="position: absolute; top: 501px; left: 30px; width: 20.188cm; height: 50px; text-align:justify; font-family: Helvetica, Arial, sans-serif;">{{facturaSelect.titolFactura}}</textarea>
+	    </div>
+		    <div>
+              <table style="position: absolute; top: 578px; left: 30px; width: 20cm; background-color: #C0C0C0; border-style:solid;border-color:#C0C0C0">
+		           {%for linia in liniesFactura%}  
+                        <tr>
+                             <p>{%for tipoTreball in tiposTreball%}</p>
+                                  {%ifequal linia.idTipoTreball tipoTreball.idTipoTreball%}
+                                       <td width="519" class="Estilo3">{{tipoTreball.treball}}</td>
+                                  {%endifequal%}
+                             {%endfor%}
+							 <td width="167" align="right" class="Estilo3">{{linia.preu}}&euro;</td>
+                        </tr>
+                   {%endfor%}
+              </table>
+        </div>
+		<div>
+			   {%if liniesSuplidos%}
+<table style="position: absolute; top: 800px; left: 386px; width: 400;">
+			     <tr>
+			    	<td width="205" align="right" class="Estilo3"> total</td>
+					<td width="183" align="right" class="Estilo3"> {{sumPreuLF}}&euro; </td>
+				 </tr>
+				 <tr>
+			    	<td width="205" align="right" class="Estilo3"> iva ({{tipoIVA}}%) </td>
+					<td width="183" align="right" class="Estilo3"> {{iva}}&euro; </td>
+				 </tr>
+	      </table>
+		      <div align="left">{%endif%}
+	      </div>
+		</div>            
+            
+            <div>
+              <table style="position: absolute; top: 863px; left: 30px; width: 20cm; background-color: #C0C0C0; bordercolor="#000000">
+		           {%for linia in liniesSuplidos%}  
+                        <tr>
+                             <td width="521" class="Estilo3">{{linia.suplido}}</td>
+							 <td width="167" align="right" bordercolor="#E0DFE3" class="Estilo3">{{linia.preuSuplido}}&euro;</td>
+                        </tr>
+                   {%endfor%}
+              </table>
+            </div>
+        <div>
+<table style="position: absolute; top: 919px; left: 387px; width: 400;">
+			     <tr>
+			    	<td width="205" align="right" class="Estilo3"> total suplidos</td>
+					<td width="183" align="right" class="Estilo3"> {{sumPreuLS}}&euro; </td>
+				 </tr>
+	      </table>
+			<div align="left"></div>
+        </div>            
+            
+			<div>
+			   <table style="position: absolute; top: 972px; left: 388px; width: 400;">
+			     {%if liniesSuplidos%}
+			     {%else%}
+			     <tr>
+			    	<td width="207" align="right" class="Estilo3"> total</td>
+					<td width="181" align="right" class="Estilo3"> {{sumPreuLF}}&euro; </td>
+				 </tr>
+				 <tr>
+			    	<td width="207" align="right" class="Estilo3"> iva ({{tipoIVA}}%) </td>
+					<td width="181" align="right" class="Estilo3"> {{iva}}&euro; </td>
+				 </tr>
+				 {%endif%}				 
+				 <tr>
+			    	<td width="207" align="right" class="Estilo6"> total factura </td>
+					<td width="181" align="right" class="Estilo6"> {{totalFactura}}&euro; </td>
+				 </tr>
+		      </table>
+			</div>
+			<div>
+			   <table style="position: absolute; top: 1050px; left: 26px; width: 704px;">
+				    <p>{%for banc in bancs%}</p>  
+				            {%ifequal banc.idBanc 2%}
+							     <tr>
+                                      <td width="356" class="Estilo4"> {{banc.nomBanc}}</td>
+					                  <td width="636" class="Estilo4"> {{banc.numConter}} </td>
+							     </tr>
+                            {%endifequal%}
+
+                     {%endfor%}              
+	          </table>
+			</div>
+			<div>
+			  <div align="left"><a class="Estilo3 Estilo5" style="position: absolute; top: 977px; left: 27px" width="200" align="right"> forma de pago: CONTADO </a> </div>
+			</div>
+			<div>
+			  <div align="left"><a class="Estilo3 Estilo5" style="position: absolute; top: 1000px; left: 27px" width="200" align="right"> En cumplimiento del RGPD, puede ejercer sus derechos en armonic@armonic.es </a> </div>
+			</div>	
+			{%ifequal esFactura 0%}
+			<div>
+			  <div align="left"><a class="Estilo3 Estilo5" style="position: absolute; top: 949px; left: 28px" width="200" align="right"> SIN VALOR CONTABLE </a> </div>
+			</div>	
+			{%endifequal%}
+			<!--  
+			{%ifequal facturaSelect.idUbicacio 3%}
+			<img src="img/logoAR.jpg" style="position: absolute; top: 150px; left: 30px" alt="" width="350" height="97" />
+			{%else%}
+			<img src="img/logoIA.jpg" style="position: absolute; top: 150px; left: 30px" alt="" width="350" height="97" />
+			{%endifequal%}-->
+			<img src="img/logoAR.jpg" style="position: absolute; top: 140px; left: 30px" alt="" width="350" />
+        </body>
+</html>

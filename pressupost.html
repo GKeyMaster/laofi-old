@@ -1,0 +1,184 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+		<h2>Pressupost</h2>
+		{%ifequal idPressupost -1%} <!-- Preparat per a  nou -->
+		<div class="container">
+			<form action="/PressupostCrea" method="post">
+
+			<div class="form-group">
+				<label>Numero: </label> <input type="text"
+				class="form-control" name="numPressupost" value="{{pressupostSelect.numPressupost}}">
+			</div>
+			<div class="form-group">
+				<label>Nom: </label> <input type="text"
+				class="form-control" name="nomPressupost" value="{{pressupostSelect.nomPressupost}}">
+			</div>
+			<div class="form-group">
+				<label>Data: </label> <input type="text"
+				class="form-control" name="dataPressupost" id="datepicker1" value="{{dataHui}}" >
+			</div>
+
+			<div class="form-group">
+				<label>Titol: </label> <input type="text"
+				class="form-control" name="titol" placeholder="titol">
+			</div>
+
+
+			<button type="submit" class="btn btn-lg btn-primary" >Crea Pressup</button>
+			<input type="text" name="enActiu" value=1 style="visibility: hidden" />
+			<input type="text" name="enPis" value=1 style="visibility: hidden" />
+			<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			<input type="text" name="idUbicacio" value="{{3}}" style="visibility: hidden" />
+			</form>
+			<br>
+			<form action="/EsquemaSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Esquema</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>
+
+			</div>
+
+		{%else%} <!--  select -->
+			<div class="container">
+			<form action="/EsquemaSelect" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Esquema</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>
+			<br />
+			<form action="/ImpPressupost" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Imprimir Agrupat</button>
+				<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" />
+				<input type="text" name="detall" value="0" style="visibility: hidden" />
+			</form>
+			<br />
+			<form action="/ImpPressupost" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Imprimir Detall</button>
+				<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" />
+				<input type="text" name="detall" value="1" style="visibility: hidden" />
+			</form>
+			<!--<br>
+			<form action="/ProformaCreaPercent" method="get">
+					<div class="form-group">
+						<label>Crear proforma seleccionant %:</label> 
+						<select name="percent" class="form-control">
+							<option value="0"></option>
+							<option value="0.20">20%</option>
+							<option value="0.25">25%</option>
+							<option value="0.30">30%</option>
+							<option value="0.40">40%</option>
+							<option value="0.50">50%</option>
+							<option value="0.60">60%</option>
+							<option value="0.70">70%</option>
+							<option value="0.80">80%</option>
+						</select>
+					</div>
+				<button type="submit" class="btn btn-lg btn-primary">Crea Proforma %</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" />
+				<input type="text" name="numPressupost" value="{{pressupostSelect.numPressupost}}" style="visibility: hidden" />
+			</form>-->
+			<br>
+
+				<form action="/PressupostEdita" method="get">
+				
+			<div class="form-group">
+				<label>Numero: </label> <input type="text"
+				class="form-control" name="numPressupost" value="{{pressupostSelect.numPressupost}}">
+			</div>
+			<div class="form-group">
+				<label>Nom: </label> <input type="text"
+				class="form-control" name="nomPressupost" value="{{pressupostSelect.nomPressupost}}">
+			</div>
+			<div class="form-group">
+				<label>Data: </label> <input type="text"
+				class="form-control" name="dataPressupost" id="datepicker2" value="{{pressupostSelect.dataPressupost}}" >
+			</div>
+					<div class="form-group">
+						<label>Departament:</label> 
+						<select name="idUbicacio" class="form-control">
+                             {%for i in ubicacioTots%}
+                                  {%ifequal i.idUbicacio pressupostSelect.idUbicacio%}
+                                       <option value="{{i.idUbicacio}}">{{i.ubicacio}}</option>
+                                  {%endifequal%}
+                             {%endfor%}
+							<option value="{{3}}">armonic</option>
+							<option value="{{1}}">laofi</option>
+						</select>
+					</div>	
+			<div class="form-group">
+				<label>Titol: </label> <input type="text"
+				class="form-control" name="titol" value="{{pressupostSelect.titol}}">
+			</div>
+			{%ifequal pressupostSelect.valeva 1%}
+			<div class="form-group">
+						<label>Valeva:</label> 
+						<select name="valeva"
+							class="form-control">
+							{%ifequal pressupostSelect.valeva 0%}
+							<option value=0>no</option>
+							<option value=1>si</option>
+							{%else%}
+							<option value=1>si</option>
+							<option value=0>no</option>
+							{%endifequal%}
+						</select>
+					</div>
+			{%endifequal%}
+			
+				
+					<button type="submit" class="btn btn-lg btn-primary">OK</button>
+					<div>
+					<input type="text" name="enActiu" value=1 style="visibility: hidden" />
+					<input type="text" name="enPis" value=1 style="visibility: hidden" />
+					<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" />
+					</div>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					</div>
+				</form>
+
+				<form action="/TreballNou" method="get">
+				<button type="submit" class="btn btn-lg btn-primary">Treball Nou</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				<input type="text" name="idPressupost" value="{{idPressupost}}" style="visibility: hidden" />
+			</form>
+		<br />	
+		
+		{%endifequal%}
+			
+		{%if treballPressup%}
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>codi</th>
+						<th>treball</th>
+						<th>preu</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in treballPressup%}
+					<tr>
+						{%for j in tipoTreballTots%}
+							{%ifequal i.idTipoTreball j.idTipoTreball%}
+							<td>{{j.claveTreball}}</td>
+							<td>{{j.treball}}</td>								
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.preu}}</td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TreballSelect?idPressupost={{idPressupost}}&idEsquema={{idEsquema}}&idTreball={{i.idTreball}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+									href="/TreballAcceptatNoPre?idPressupost={{idPressupost}}&idEsquema={{idEsquema}}&idTreball={{i.idTreball}}"> <span
+										class="glyphicon glyphicon-remove"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+		{%endif%}
+</div>
+
+{% include "footer.html" %}

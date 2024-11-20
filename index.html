@@ -1,0 +1,43 @@
+{% include "header.html" %}
+<!-- Page Content -->
+
+ 
+<div class="container">
+	<!-- Jumbotron -->
+	<div class="jumbotron" id="modif-jumbo-1">
+		<h2 style="font-weight: bold">Esquemes</h2>
+		<p>	
+			<a class="btn btn-lg btn-primary" href="/EsquemaNou" role="button">Nou Esquema</a>
+			<a class="btn btn-lg btn-primary" href="/EsquemesTots" role="button">Tots Esquemes</a>
+			<a class="btn btn-lg btn-primary" href="/ComiInicial" role="button">Comis</a>
+			<a class="btn btn-lg btn-primary" href="/GantInicial" role="button">Gant</a>
+		</p>
+	</div>
+	<div class="jumbotron" id="modif-jumbo-1">
+		<h2 style="font-weight: bold">Contabilitat</h2>
+		<p>
+			
+			
+			<a class="btn btn-lg btn-primary" href="/MovimentInicial" role="button">Moviment</a>
+			<a class="btn btn-lg btn-primary" href="/PissarraInicial" role="button">Pissarra</a>
+			<a class="btn btn-lg btn-primary" href="/PissarraFac" role="button">Fet</a>
+			<a class="btn btn-lg btn-primary" href="/PissarraCobro" role="button">Cobrat</a>
+			<a class="btn btn-lg btn-primary" href="/ProformaTotsInicial" role="button">Proformes</a>
+			
+		</p>
+	</div>
+		<div class="jumbotron" id="modif-jumbo-1">
+		<h2 style="font-weight: bold">Control</h2>
+		<p>
+			<a class="btn btn-lg btn-primary" href="/VacancesSelect" role="button">Vacances</a>
+			<a class="btn btn-lg btn-primary" href="/CapsulaInicial" role="button">Capsula</a>
+			<a class="btn btn-lg btn-primary" href="/IntermediariTots" role="button">Intermediaris</a>
+			<a class="btn btn-lg btn-primary" href="/VipTots" role="button">VIP</a>
+			{%ifequal treballadorSelect.nivell 2%}
+			<a class="btn btn-lg btn-primary" href="/ControlInicial" role="button">Control</a>
+			{%endifequal%}
+		</p>
+	</div>
+</div>
+
+{% include "footer.html" %}

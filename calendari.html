@@ -1,0 +1,382 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+		<form action="/CalendariFiltro" method="get">
+					<div class="form-group">
+						<label>Departament:</label> 
+						<select name="idUbicacio" class="form-control">
+                            <option value=-1>tots</option>
+							{%for i in ubicacioTots%}
+							<option value={{i.idUbicacio}}>{{i.ubicacio}}</option>
+							{%endfor%}
+						</select>
+					</div>	
+				<div class="form-group">
+				<label>Treballador:</label> 
+				<select name="idTreballador" class="form-control">
+                           {%for i in treballadorTots%}
+                                {%ifequal i.idTreballador idTreballador%}
+                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+                                {%endifequal%}
+                           {%endfor%}
+                           <option value=-1>tots</option>
+						   {%for i in treballadorAct%}
+						 		<option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+						   {%endfor%}
+				</select>
+				</div>	
+					<button type="submit" class="btn btn-lg btn-primary">OK</button>
+				
+			</form>
+			<br />	
+			<h2>PASSAT</h2>
+			<div class="container">
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Coord</th>
+						<th>Treb</th>
+						<th>Departament</th>
+						<th>Intermediari</th>
+						<th>Num</th>
+						<th>Esquema</th>
+						<th>Tel</th>
+						<th>Tarea</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in tareaPassat%}
+					<tr>
+					  {%ifequal i.marca 0%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.numExpedient}}</td>
+						<td>{{i.nomExpedient}}</td>
+						<td>{{i.telClientPos}}</td>
+						<td>{{i.comentari}}</td>
+					  {%else%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td id=color5>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td id=color5>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td id=color5>{{i.numExpedient}}</td>
+						<td id=color5>{{i.nomExpedient}}</td>
+						<td id=color5>{{i.telClientPos}}</td>
+						<td id=color5>{{i.comentari}}</td>
+					  {%endifequal%}
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaSelectCal?idEsquema={{i.idEsquema}}&idTarea={{i.idTarea}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaHui?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-arrow-down"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaDilluns?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-calendar"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			</div>
+
+			<h2>HUI</h2>
+			<div class="container">
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Coord</th>
+						<th>Treb</th>
+						<th>Departament</th>
+						<th>Intermediari</th>
+						<th>Num</th>
+						<th>Esquema</th>
+						<th>Tel</th>
+						<th>Tarea</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in tareaHui%}
+					<tr>
+					  {%ifequal i.marca 0%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.numExpedient}}</td>
+						<td>{{i.nomExpedient}}</td>
+						<td>{{i.telClientPos}}</td>
+						<td>{{i.comentari}}</td>
+					  {%else%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td id=color5>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td id=color5>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td id=color5>{{i.numExpedient}}</td>
+						<td id=color5>{{i.nomExpedient}}</td>
+						<td id=color5>{{i.telClientPos}}</td>
+						<td id=color5>{{i.comentari}}</td>
+					  {%endifequal%}
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaSelectCal?idEsquema={{i.idEsquema}}&idTarea={{i.idTarea}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaDema?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-arrow-right"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaDilluns?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-calendar"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			</div>
+			<h2>DEMA</h2>
+			<div class="container">
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Coord</th>
+						<th>Treb</th>
+						<th>Departament</th>
+						<th>Intermediari</th>
+						<th>Num</th>
+						<th>Esquema</th>
+						<th>Tel</th>
+						<th>Tarea</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in tareaDema%}
+					<tr>
+					  {%ifequal i.marca 0%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.numExpedient}}</td>
+						<td>{{i.nomExpedient}}</td>
+						<td>{{i.telClientPos}}</td>
+						<td>{{i.comentari}}</td>
+					  {%else%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td id=color5>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td id=color5>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td id=color5>{{i.numExpedient}}</td>
+						<td id=color5>{{i.nomExpedient}}</td>
+						<td id=color5>{{i.telClientPos}}</td>
+						<td id=color5>{{i.comentari}}</td>
+					  {%endifequal%}
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaSelectCal?idEsquema={{i.idEsquema}}&idTarea={{i.idTarea}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaHui?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-arrow-down"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaDilluns?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-calendar"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			</div>
+			<h2>FUTUR</h2>
+			<div class="container">
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Coord</th>
+						<th>Treb</th>
+						<th>Departament</th>
+						<th>Intermediari</th>
+						<th>Num</th>
+						<th>Esquema</th>
+						<th>Tel</th>
+						<th>Tarea</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for i in tareaFutur%}
+					<tr>
+					  {%ifequal i.marca 0%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td>{{i.numExpedient}}</td>
+						<td>{{i.nomExpedient}}</td>
+						<td>{{i.telClientPos}}</td>
+						<td>{{i.comentari}}</td>
+					  {%else%}
+					  	{%for j in treballadorTots%}
+							{%ifequal i.idCoordinador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in treballadorTots%}
+							{%ifequal i.idTreballador j.idTreballador%}
+							<td id=color5>{{j.claveTreballador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in ubicacioTots%}
+							{%ifequal i.idUbicacio j.idUbicacio%}
+							<td id=color5>{{j.ubicacio}}</td>
+							{%endifequal%}
+						{%endfor%}
+						{%for j in intermediariTots%}
+							{%ifequal i.idIntermediari j.idIntermediari%}
+							<td id=color5>{{j.identificador}}</td>
+							{%endifequal%}
+						{%endfor%}
+						<td id=color5>{{i.numExpedient}}</td>
+						<td id=color5>{{i.nomExpedient}}</td>
+						<td id=color5>{{i.telClientPos}}</td>
+						<td id=color5>{{i.comentari}}</td>
+					  {%endifequal%}
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaSelectCal?idEsquema={{i.idEsquema}}&idTarea={{i.idTarea}}"> <span
+								class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaHui?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-arrow-down"></span></a></td>
+						<td><a class="btn btn-lg btn-primary btn-xs" role="button"
+							href="/TareaDema?idUbicacio={{i.idUbicacio}}&idTarea={{i.idTarea}}&idTreballador={{i.idTreballador}}"> <span
+								class="glyphicon glyphicon-arrow-left"></span></a></td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			</div>
+			
+	
+
+
+{% include "footer.html" %}

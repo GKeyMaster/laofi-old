@@ -1,0 +1,109 @@
+{% include "header.html" %}
+<!-- Page Content -->
+<div class="container">
+	<!-- Jumbotron -->
+
+			<h2>Tarea</h2>
+			
+		<div class="container">
+			{%ifequal idTarea -1%}
+
+			<form action="/TareaCrea" method="post">
+
+				<div class="form-group">
+					<label>Treballador:</label> 
+					<select name="idTreballador" class="form-control">
+	                                     <option value="{{treballadorSelect.idTreballador}}">{{treballadorSelect.claveTreballador}}</option>
+							   {%for i in treballadorAct%}
+										 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+							   {%endfor%}
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Tarea: </label> <input type="text"
+					class="form-control" name="comentari" placeholder="tarea">
+				</div>
+				<div class="form-group">
+					<label></label> <input type="text"
+					class="form-control" name="dataTarea" id="datepicker1" value="{{dataHui}}" style="visibility: hidden">
+				</div>
+				<div class="form-group">
+						<label>Estat:</label> 
+						<select name="idEstat" class="form-control">
+		                           <option value="1">P1</option>
+								   {%for i in estat%}
+											 <option value={{i.idEstat}}>{{i.nomEstat}}</option>
+								   {%endfor%}
+						</select>
+				</div>
+				
+
+				<button type="submit" class="btn btn-lg btn-primary" >Crea</button>
+				<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				<input type="text" name="marca" value="10" style="visibility: hidden" />
+				</form>
+				<form action="/EsquemaSelect" method="get">
+					<button type="submit" class="btn btn-lg btn-primary"  >Esquema</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+			</form>
+			{%else%}
+			<form action="/TareaEdita" method="get">
+				
+
+					<div class="form-group">
+						<label>Treballador:</label> 
+						<select name="idTreballador" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador tareaSelect.idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label>Tarea: </label> <input type="text"
+						class="form-control" name="comentari" value="{{tareaSelect.comentari}}">
+					</div>
+					<div class="form-group">
+						<label>Data Ini: </label> <input type="text"
+						class="form-control" name="dataTarea" id="datepicker3" value="{{tareaSelect.dataTarea}}" >
+					</div>
+					<div class="form-group">
+						<label>Data Fin: </label> <input type="text"
+						class="form-control" name="dataFin" id="datepicker4" value="{{tareaSelect.dataFin}}" >
+					</div>
+					<div class="form-group">	
+					  {%ifequal tareaSelect.ok 1%}
+		                   <label>Completada: </label> <input type="checkbox" class="form-control" name="ok" value=1 checked="checked">
+		              {%else%}
+		                   <label>Completada: </label> <input type="checkbox" class="form-control" name="ok" value=1>
+		              {%endifequal%}
+					</div>
+
+
+						<input type="text" name="idTarea" value="{{tareaSelect.idTarea}}" style="visibility: hidden" />
+				
+						<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+					<div>			
+						<button type="submit" class="btn btn-lg btn-primary">OK</button>
+					</div>
+					
+				</form>
+				<br>
+				<form action="/EsquemaSelect" method="get">
+					<button type="submit" class="btn btn-lg btn-primary"  >Esquema</button>
+					<input type="text" name="idEsquema" value="{{idEsquema}}" style="visibility: hidden" />
+				</form>
+				<br>
+				<form action="/GantInicial" method="get">
+					<button type="submit" class="btn btn-lg btn-primary"  >Gant</button>
+				</form>
+				{%endifequal%}
+		</div>
+</div>
+
+{% include "footer.html" %}

@@ -1,0 +1,277 @@
+{% include "header.html" %}
+
+
+
+<div class="container">
+	<!-- Jumbotron -->
+	<div class="jumbotron" id="modif-jumbo-1">
+	
+	
+	    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">	
+		
+		var a = "{{liniatemps}}";
+		
+		var c = "{{linkTarea}}";
+		
+		var d = "{{eixTemps}}";
+		
+		
+		
+		var result = [];
+
+		a = a.split(','); 
+
+		while(a[0]) {
+		    result.push(a.splice(0,5));
+		}
+
+		result;
+		
+		var matriu = result;
+		
+		var result2 = [];
+
+		c = c.split(','); 
+
+		while(c[0]) {
+		    result2.push(c.splice(0,1));
+		}
+
+		result2;
+		
+		var linkTarea = result2;
+		
+
+		
+	  
+		  function compareDate(str1){
+				var yr1   = parseInt(str1.substring(0,4));
+				var mon1  = parseInt(str1.substring(5,7));
+				var dt1   = parseInt(str1.substring(8,10));
+				var date1 = new Date(yr1, mon1-1, dt1);
+				return date1;
+				}
+			
+		  function transforma(a) {
+			  	for (var i=0; i<a.length; i++) { 
+					a[i][3]=compareDate(a[i][3]);
+					a[i][4]=compareDate(a[i][4]);
+			  	}
+				return a;
+			  }  
+		  
+		  
+		  matriu = transforma(matriu)
+		  
+		  
+		  var eix = d.split(','); 
+		  
+
+		  
+		  var  fin = compareDate(eix[1]);
+		  
+		  var zoomE = eix[0];
+		  
+		  
+		  
+		  
+		  
+ 
+		  
+		  
+		  
+		 	
+		  function drawChart() {
+
+		 	    var container = document.getElementById('liniatemps');
+		 	    var chart = new google.visualization.Timeline(container);
+		 	    var dataTable = new google.visualization.DataTable();
+		 	    dataTable.addColumn({ type: 'string', id: 'Position' });
+		 	    dataTable.addColumn({ type: 'string', id: 'Name' });
+		 	    dataTable.addColumn({ type: 'string', role: 'style' });
+		 	    dataTable.addColumn({ type: 'date', id: 'Start' });
+		 	    dataTable.addColumn({ type: 'date', id: 'End' });
+		 	    
+		 	    
+		 	    var dataTable2 = new google.visualization.DataTable();
+		 	    dataTable2.addColumn({ type: 'string', id: 'Position' });
+
+		 	    
+		 	    
+		 	    
+		 	    dataTable.addRows(matriu);
+		 	    
+		 	    dataTable2.addRows(linkTarea);
+		 	    
+		 	    var rowHeight = 41;
+		 	    var chartHeight = (dataTable.getNumberOfRows() + 1) * rowHeight;
+
+
+		 	    
+		 	   var options = {
+		 			 //timeline: { groupByRowLabel: false },
+		 		     hAxis: {
+								maxValue: fin,
+		 		     },
+			 	     height: chartHeight,
+			 	     width: zoomE,
+			 	     
+		 		   };
+		 	  		
+
+		 	   
+		 		// use a DataView to hide the category column from the Timeline
+		 	    //var view = new google.visualization.DataView(dataTable);
+		 	    //view.setColumns([0, 1, 2, 3]);  
+		 	   
+
+		        function selectHandler() {
+		          var selectedItem = chart.getSelection();
+		          if (selectedItem) {
+		        	  var value = dataTable2.getValue(selectedItem[0].row,0)  
+		              window.location = value;
+		          		}
+		        	}
+
+		        google.visualization.events.addListener(chart, 'select', selectHandler);
+		 	    chart.draw(dataTable, options);
+		 	  }
+			 google.charts.load("current", {packages:["timeline"]});
+			 google.charts.setOnLoadCallback(drawChart);
+		  
+
+		  
+		</script>
+
+</div>
+
+{% if tareaSelect %}
+{% else %}
+<div class="container">
+			
+			<table id="mytable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>€mes</th>
+						<th>€any</th>
+						<th>€obj</th>
+						<th>€difObj</th>
+						<th>€cofre</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ingMesActual}}</td>
+						<td>{{ingAnyActual}}</td>
+						<td>{{objectiu}}</td>
+						<td>{{difObjectiu}}</td>
+						<td>{{cofre}}</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+{% endif %}
+
+
+	{% if tareaSelect %}
+ 
+ <div class="container">
+
+  <form class="form-inline" role="form" action="/GantTareaEdita" method="get">
+					<div class="form-group">
+						<label></label> <input type="text"
+						class="form-control" name="nomExpedient" value="{{esquemaSelect.nomExpedient}}">
+					</div>
+					{% ifequal esquemaSelect.idEsquema 3848 %}
+					{%else%}
+					<div class="form-group">
+						<select name="idTreballador" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador tareaSelect.idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="text"
+						class="form-control" name="comentari" value="{{tareaSelect.comentari}}">
+					</div>
+					
+					<div class="form-group">
+						<label>data: </label> <input type="text"
+						class="form-control" name="dataTarea" id="datepicker3" value="{{tareaSelect.dataTarea}}">
+					</div>
+					
+					<div class="form-group">
+						<select name="idEstat" class="form-control">
+		                           {%for i in estat%}
+		                                {%ifequal i.idEstat tareaSelect.idEstat%}
+		                                     <option value="{{i.idEstat}}">{{i.claveEstat}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+								   {%for i in estat%}
+											 <option value={{i.idEstat}}>{{i.claveEstat}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+					<div class="form-group">
+					   <label>resp: </label>
+						<select name="idTreballadorEsq" class="form-control">
+		                           {%for i in treballadorTots%}
+		                                {%ifequal i.idTreballador esquemaSelect.idTreballador%}
+		                                     <option value="{{i.idTreballador}}">{{i.claveTreballador}}</option>
+		                                {%endifequal%}
+		                           {%endfor%}
+								   {%for i in treballadorAct%}
+											 <option value={{i.idTreballador}}>{{i.claveTreballador}}</option>
+								   {%endfor%}
+						</select>
+					</div>
+					
+					<div class="form-group">	
+					  {%ifequal tareaSelect.ok 1%}
+		                   <label>borra: </label> <input type="checkbox" class="form-control" name="ok" value=1 checked="checked">
+		              {%else%}
+		                   <label>borra: </label> <input type="checkbox" class="form-control" name="ok" value=1>
+		              {%endifequal%}
+					</div>
+					{%endifequal%}
+
+						<button type="submit" class="btn btn-default">OK</button>
+						<a href="/EsquemaSelect?idEsquema={{esquemaSelect.idEsquema}}">esquema</a>
+						<a href="/GantInicial">   gant</a>
+				
+						<input type="text" name="idEsquema" value="{{esquemaSelect.idEsquema}}" style="visibility: hidden" />
+						<input type="text" name="idTarea" value="{{tareaSelect.idTarea}}" style="visibility: hidden" />
+						<input type="text" name="dataFin" value="{{tareaSelect.dataTarea}}" style="visibility: hidden" />
+						<input type="text" name="zoom" value="{{zoom}}" style="visibility: hidden" />
+						<input type="text" name="marca" value="10" style="visibility: hidden" />
+  </form>
+
+</div> 
+
+
+	{% else %}
+	<form action="/GantZoom" method="get">
+					<button type="submit" class="btn btn-lg btn-primary"  >Zoom</button>
+					{% ifequal zoom 1%}
+					<input type="text" name="zoom" value="2" style="visibility: hidden" />
+					{%else%}
+					<input type="text" name="zoom" value="1" style="visibility: hidden" />
+					{%endifequal%}
+					
+				</form>
+				<br>
+	{% endif %}	
+	 
+<div id="chart_wrapper"> 
+	<div id="liniatemps"></div>
+</div>
+
+
+{% include "footer.html" %}
